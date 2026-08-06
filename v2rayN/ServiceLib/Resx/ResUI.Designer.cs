@@ -529,6 +529,15 @@ namespace ServiceLib.Resx {
         }
 
         /// <summary>
+        ///   查找类似 No Speed Only 的本地化字符串。
+        /// </summary>
+        public static string LvShowOnlyNoSpeed {
+            get {
+                return ResourceManager.GetString("LvShowOnlyNoSpeed", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 More URLs, separated by commas; Subscription conversion will be invalid 的本地化字符串。
         /// </summary>
         public static string LvMoreUrl {

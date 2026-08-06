@@ -1353,6 +1353,9 @@
   <data name="LvRecycleBin" xml:space="preserve">
     <value>回收站</value>
   </data>
+  <data name="LvShowOnlyNoSpeed" xml:space="preserve">
+    <value>无速度</value>
+  </data>
   <data name="TbSettingsLinuxSudoPassword" xml:space="preserve">
     <value>系统的 sudo 密码</value>
   </data>

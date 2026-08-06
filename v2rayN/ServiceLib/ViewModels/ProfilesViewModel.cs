@@ -44,6 +44,9 @@ public partial class ProfilesViewModel : MyReactiveObject
     [Reactive]
     public partial string ServerFilter { get; set; }
 
+    [Reactive]
+    public partial bool ShowOnlyNoSpeed { get; set; }
+
     #endregion ObservableCollection
 
     #region Menu
@@ -119,6 +122,9 @@ public partial class ProfilesViewModel : MyReactiveObject
           x => x.ServerFilter,
           y => y != null && _serverFilter != y)
               .Subscribe(async c => await ServerFilterChanged(c));
+
+        this.WhenAnyValue(x => x.ShowOnlyNoSpeed)
+              .Subscribe(async _ => await RefreshServers());
 
         //servers delete
         EditServerCmd = ReactiveCommand.CreateFromTask(async () =>
@@ -392,6 +398,11 @@ public partial class ProfilesViewModel : MyReactiveObject
     {
         var lstModel = await GetProfileItemsEx(_config.SubIndexId, _serverFilter);
         _lstProfile = JsonUtils.Deserialize<List<ProfileItem>>(JsonUtils.Serialize(lstModel)) ?? [];
+
+        if (ShowOnlyNoSpeed)
+        {
+            lstModel = lstModel?.Where(t => t.Speed <= 0).ToList();
+        }
 
         ProfileItems.Clear();
         ProfileItems.AddRange(lstModel ?? []);

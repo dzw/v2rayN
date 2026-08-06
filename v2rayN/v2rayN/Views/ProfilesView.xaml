@@ -84,6 +84,17 @@
                     AutomationProperties.Name="{x:Static resx:ResUI.MsgServerTitle}"
                     Style="{StaticResource DefTextBox}" />
 
+                <ToggleButton
+                    x:Name="btnShowOnlyNoSpeed"
+                    Width="30"
+                    Height="30"
+                    Margin="{StaticResource MarginLeftRight4}"
+                    AutomationProperties.Name="{x:Static resx:ResUI.LvShowOnlyNoSpeed}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    ToolTip="{x:Static resx:ResUI.LvShowOnlyNoSpeed}">
+                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="Filter" />
+                </ToggleButton>
+
                 <Button
                     x:Name="btnAutofitColumnWidth"
                     Width="30"

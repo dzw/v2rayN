@@ -1350,6 +1350,9 @@
   <data name="LvRecycleBin" xml:space="preserve">
     <value>Recycle Bin</value>
   </data>
+  <data name="LvShowOnlyNoSpeed" xml:space="preserve">
+    <value>No Speed</value>
+  </data>
   <data name="TbSettingsLinuxSudoPassword" xml:space="preserve">
     <value>Rendszer sudo jelszó</value>
   </data>
