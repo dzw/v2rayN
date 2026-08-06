@@ -35,4 +35,6 @@ public class SubItem
     public string? Memo { get; set; }
 
     public ECoreType? CustomCoreType { get; set; }
+
+    public bool LockGroupNodes { get; set; }
 }

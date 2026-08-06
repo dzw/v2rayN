@@ -29,6 +29,23 @@
                     FontSize="{DynamicResource StdFontSize}"
                     ItemContainerStyle="{StaticResource MyChipListBoxItem}"
                     Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineListBox}">
+                    <ListBox.ContextMenu>
+                        <ContextMenu Style="{StaticResource DefContextMenu}">
+                            <MenuItem
+                                x:Name="menuSubGroupUpdate"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubGroupUpdate}" />
+                            <MenuItem
+                                x:Name="menuSubGroupUpdateViaProxy"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubGroupUpdateViaProxy}" />
+                            <Separator />
+                            <MenuItem
+                                x:Name="menuSubGroupSetting"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubSetting}" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Remarks}" />

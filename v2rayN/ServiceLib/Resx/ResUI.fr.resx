@@ -1338,6 +1338,9 @@
   <data name="LvMemo" xml:space="preserve">
     <value>Mémo</value>
   </data>
+  <data name="LvLockGroupNodes" xml:space="preserve">
+    <value>Lock group nodes</value>
+  </data>
   <data name="TbSettingsLinuxSudoPassword" xml:space="preserve">
     <value>Mot de passe sudo système</value>
   </data>

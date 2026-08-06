@@ -2309,6 +2309,11 @@ public static class ConfigHandler
     {
         foreach (var item in lstProfile)
         {
+            var srcSubItem = await AppManager.Instance.GetSubItem(item.Subid);
+            if (srcSubItem != null && srcSubItem.LockGroupNodes)
+            {
+                continue;
+            }
             item.Subid = subid;
         }
         await SQLiteHelper.Instance.UpdateAllAsync(lstProfile);

@@ -500,7 +500,16 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("LvMemo", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 Lock group nodes 的本地化字符串。
+        /// </summary>
+        public static string LvLockGroupNodes {
+            get {
+                return ResourceManager.GetString("LvLockGroupNodes", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 More URLs, separated by commas; Subscription conversion will be invalid 的本地化字符串。
         /// </summary>

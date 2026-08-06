@@ -88,6 +88,8 @@ public partial class ProfilesViewModel : MyReactiveObject
     public ReactiveCommand<RxVoid, RxVoid> AddSubCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> EditSubCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> DeleteSubCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> SubGroupUpdateCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> SubGroupUpdateViaProxyCmd { get; }
 
     #endregion Menu
 
@@ -240,6 +242,14 @@ public partial class ProfilesViewModel : MyReactiveObject
         DeleteSubCmd = ReactiveCommand.CreateFromTask(async () =>
         {
             await DeleteSubAsync();
+        });
+        SubGroupUpdateCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await UpdateSubProcess(false);
+        });
+        SubGroupUpdateViaProxyCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await UpdateSubProcess(true);
         });
 
         #endregion WhenAnyValue && ReactiveCommand
@@ -933,6 +943,31 @@ public partial class ProfilesViewModel : MyReactiveObject
 
         await RefreshSubscriptions();
         await SubSelectedChangedAsync(true);
+    }
+
+    private async Task UpdateSubProcess(bool blProxy)
+    {
+        var subId = SelectedSub?.Id;
+        if (subId.IsNullOrEmpty())
+        {
+            return;
+        }
+
+        await SubscriptionHandler.UpdateProcess(_config, subId, blProxy, async (success, msg) =>
+        {
+            RxSchedulers.MainThreadScheduler.Schedule(async () =>
+            {
+                if (success)
+                {
+                    await RefreshSubscriptions();
+                    await SubSelectedChangedAsync(true);
+                }
+                if (msg.IsNotEmpty())
+                {
+                    NoticeManager.Instance.Enqueue(msg);
+                }
+            });
+        });
     }
 
     #endregion Subscription
