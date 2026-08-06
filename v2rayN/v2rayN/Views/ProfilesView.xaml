@@ -348,7 +348,8 @@
                         Width="100"
                         Binding="{Binding SpeedVal}"
                         ExName="SpeedVal"
-                        Header="{x:Static resx:ResUI.LvTestSpeed}">
+                        Header="{x:Static resx:ResUI.LvTestSpeed}"
+                        SortMemberPath="Speed">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="HorizontalAlignment" Value="Right" />

@@ -676,7 +676,8 @@ public partial class ProfilesViewModel : MyReactiveObject
             return;
         }
 
-        _dicHeaderSort.TryAdd(colName, true);
+        var defaultAsc = colName != nameof(EServerColName.SpeedVal);
+        _dicHeaderSort.TryAdd(colName, defaultAsc);
         _dicHeaderSort.TryGetValue(colName, out var asc);
         if (await ConfigHandler.SortServers(_config, _config.SubIndexId, colName, asc) != 0)
         {

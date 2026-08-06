@@ -1090,21 +1090,30 @@ public static class ConfigHandler
             case EServerColName.DelayVal:
                 {
                     var maxSort = lstProfile.Max(t => t.Sort) + 10;
+                    var i = 0;
                     foreach (var item in lstProfile.Where(item => item.Delay <= 0))
                     {
-                        ProfileExManager.Instance.SetSort(item.IndexId, maxSort);
+                        ProfileExManager.Instance.SetSort(item.IndexId, maxSort + i);
+                        i++;
                     }
-
                     break;
                 }
             case EServerColName.SpeedVal:
                 {
+                    var profileExMap = lstProfileExs.ToDictionary(t => t.IndexId);
                     var maxSort = lstProfile.Max(t => t.Sort) + 10;
-                    foreach (var item in lstProfile.Where(item => item.Speed <= 0))
+                    var i = 0;
+                    foreach (var item in lstProfile
+                        .Where(item => item.Speed <= 0)
+                        .OrderBy(item =>
+                        {
+                            var msg = profileExMap.GetValueOrDefault(item.IndexId)?.Message ?? "";
+                            return msg.IsNullOrEmpty() || msg == "0.0" ? 0 : 1;
+                        }))
                     {
-                        ProfileExManager.Instance.SetSort(item.IndexId, maxSort);
+                        ProfileExManager.Instance.SetSort(item.IndexId, maxSort + i);
+                        i++;
                     }
-
                     break;
                 }
         }
