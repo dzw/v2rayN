@@ -330,6 +330,7 @@ public partial class MainWindowViewModel : MyReactiveObject
         //await ConfigHandler.InitBuiltinRouting(_config);
         await ConfigHandler.InitBuiltinDNS(_config);
         await ConfigHandler.InitBuiltinFullConfigTemplate(_config);
+        await ConfigHandler.EnsureRecycleBinExists();
         await ProfileExManager.Instance.Init();
         await CoreManager.Instance.Init(_config, UpdateHandler);
         await CertPemManager.Instance.Init(_config);

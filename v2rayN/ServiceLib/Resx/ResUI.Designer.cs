@@ -520,6 +520,15 @@ namespace ServiceLib.Resx {
         }
 
         /// <summary>
+        ///   查找类似 Recycle Bin 的本地化字符串。
+        /// </summary>
+        public static string LvRecycleBin {
+            get {
+                return ResourceManager.GetString("LvRecycleBin", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 More URLs, separated by commas; Subscription conversion will be invalid 的本地化字符串。
         /// </summary>
         public static string LvMoreUrl {

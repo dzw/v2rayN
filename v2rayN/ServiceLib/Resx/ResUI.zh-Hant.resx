@@ -1350,6 +1350,9 @@
   <data name="LvSpeedPassRate" xml:space="preserve">
     <value>通過率</value>
   </data>
+  <data name="LvRecycleBin" xml:space="preserve">
+    <value>回收站</value>
+  </data>
   <data name="TbSettingsLinuxSudoPassword" xml:space="preserve">
     <value>系統的 sudo 密碼</value>
   </data>

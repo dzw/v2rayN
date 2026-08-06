@@ -342,14 +342,13 @@ public static class ConfigHandler
     /// <returns>0 if successful</returns>
     public static async Task<int> RemoveServers(Config config, List<ProfileItem> indexes)
     {
-        var subid = "TempRemoveSubId";
+        await EnsureRecycleBinExists();
         foreach (var item in indexes)
         {
-            item.Subid = subid;
+            item.Subid = Global.RecycleBinSubId;
         }
 
         await SQLiteHelper.Instance.UpdateAllAsync(indexes);
-        await RemoveServersViaSubid(config, subid, false);
 
         return 0;
     }
@@ -2250,6 +2249,27 @@ public static class ConfigHandler
         else
         {
             return -1;
+        }
+    }
+
+    public static async Task EnsureRecycleBinExists()
+    {
+        var item = await AppManager.Instance.GetSubItem(Global.RecycleBinSubId);
+        if (item == null)
+        {
+            var subItem = new SubItem
+            {
+                Id = Global.RecycleBinSubId,
+                Remarks = ResUI.LvRecycleBin,
+                Enabled = false,
+                Sort = int.MaxValue
+            };
+            await SQLiteHelper.Instance.InsertAsync(subItem);
+        }
+        else if (item.Remarks != ResUI.LvRecycleBin)
+        {
+            item.Remarks = ResUI.LvRecycleBin;
+            await SQLiteHelper.Instance.UpdateAsync(item);
         }
     }
 

@@ -390,14 +390,7 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
                             return;
                         }
 
-                        if (delay > 0)
-                        {
-                            await DoSpeedTest(downloadHandle, it);
-                        }
-                        else
-                        {
-                            await UpdateFunc(it.IndexId, "", ResUI.SpeedtestingSkip);
-                        }
+                        await DoSpeedTest(downloadHandle, it);
                     }
                 }
                 catch (Exception ex)
@@ -530,8 +523,10 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         if (indexId.IsNotEmpty() && speed.IsNotEmpty())
         {
             ProfileExManager.Instance.SetTestMessage(indexId, speed);
-            decimal.TryParse(speed, out var dec);
-            ProfileExManager.Instance.IncrementSpeedTestCount(indexId, dec > 0);
+            if (decimal.TryParse(speed, out var dec))
+            {
+                ProfileExManager.Instance.IncrementSpeedTestCount(indexId, dec > 0);
+            }
         }
     }
 

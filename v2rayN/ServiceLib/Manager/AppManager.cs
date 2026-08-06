@@ -217,6 +217,10 @@ public sealed class AppManager
         {
             sql += $" and a.subid = '{subid}'";
         }
+        else
+        {
+            sql += $" and a.subid != '{Global.RecycleBinSubId}'";
+        }
         if (filter.IsNotEmpty())
         {
             if (filter.Contains('\''))

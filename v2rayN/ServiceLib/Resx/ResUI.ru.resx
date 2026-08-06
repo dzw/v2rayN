@@ -1353,6 +1353,9 @@
   <data name="LvSpeedPassRate" xml:space="preserve">
     <value>Pass Rate</value>
   </data>
+  <data name="LvRecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
   <data name="TbSettingsLinuxSudoPassword" xml:space="preserve">
     <value>Пароль sudo системы</value>
   </data>

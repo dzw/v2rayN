@@ -28,6 +28,7 @@ public partial class ProfilesViewModel : MyReactiveObject
     public BulkObservableCollection<ProfileItemModel> ProfileItems { get; } = [];
 
     public BulkObservableCollection<SubItem> SubItems { get; } = [];
+    public BulkObservableCollection<SubItem> SubItemsForMove { get; } = [];
 
     [Reactive]
     public partial ProfileItemModel SelectedProfile { get; set; }
@@ -422,6 +423,9 @@ public partial class ProfilesViewModel : MyReactiveObject
 
         SubItems.Clear();
         SubItems.AddRange(subItems);
+
+        SubItemsForMove.Clear();
+        SubItemsForMove.AddRange(subItems.Where(t => t.Id != Global.RecycleBinSubId));
 
         SelectedSub = (_config.SubIndexId.IsNotEmpty()
                         ? subItems.FirstOrDefault(t => t.Id == _config.SubIndexId)
@@ -909,6 +913,10 @@ public partial class ProfilesViewModel : MyReactiveObject
 
     private async Task EditSubAsync(bool blNew)
     {
+        if (!blNew && _config.SubIndexId == Global.RecycleBinSubId)
+        {
+            return;
+        }
         SubItem item;
         if (blNew)
         {
@@ -932,6 +940,10 @@ public partial class ProfilesViewModel : MyReactiveObject
 
     private async Task DeleteSubAsync()
     {
+        if (_config.SubIndexId == Global.RecycleBinSubId)
+        {
+            return;
+        }
         var item = await AppManager.Instance.GetSubItem(_config.SubIndexId);
         if (item is null)
         {
@@ -951,7 +963,7 @@ public partial class ProfilesViewModel : MyReactiveObject
     private async Task UpdateSubProcess(bool blProxy)
     {
         var subId = SelectedSub?.Id;
-        if (subId.IsNullOrEmpty())
+        if (subId.IsNullOrEmpty() || subId == Global.RecycleBinSubId)
         {
             return;
         }
