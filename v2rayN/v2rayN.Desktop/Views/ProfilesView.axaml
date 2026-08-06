@@ -280,6 +280,11 @@
                         Binding="{Binding SpeedVal}"
                         Header="{x:Static resx:ResUI.LvTestSpeed}"
                         Tag="SpeedVal" />
+                    <DataGridTextColumn
+                        Width="60"
+                        Binding="{Binding SpeedPassRate}"
+                        Header="{x:Static resx:ResUI.LvSpeedPassRate}"
+                        Tag="SpeedPassRate" />
 
                     <DataGridTemplateColumn SortMemberPath="IpInfo" Tag="IpInfo">
                         <DataGridTemplateColumn.Header>

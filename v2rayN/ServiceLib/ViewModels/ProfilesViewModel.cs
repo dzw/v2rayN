@@ -307,6 +307,7 @@ public partial class ProfilesViewModel : MyReactiveObject
         if (result.Speed.IsNotEmpty())
         {
             item.SpeedVal = result.Speed ?? string.Empty;
+            item.SpeedPassRate = ProfileExManager.Instance.GetSpeedPassRate(result.IndexId);
         }
         if (result.IpInfo.IsNotEmpty())
         {
@@ -463,6 +464,7 @@ public partial class ProfilesViewModel : MyReactiveObject
                         Speed = t33?.Speed ?? 0,
                         DelayVal = t33?.Delay != 0 ? $"{t33?.Delay}" : string.Empty,
                         SpeedVal = t33?.Speed > 0 ? $"{t33?.Speed}" : t33?.Message ?? string.Empty,
+                        SpeedPassRate = t33 != null && t33.SpeedTestTotal > 0 ? $"{t33.SpeedTestPassed}/{t33.SpeedTestTotal}" : string.Empty,
                         IpInfo = t33?.IpInfo ?? string.Empty,
                         TodayDown = t22 == null ? "" : Utils.HumanFy(t22.TodayDown),
                         TodayUp = t22 == null ? "" : Utils.HumanFy(t22.TodayUp),

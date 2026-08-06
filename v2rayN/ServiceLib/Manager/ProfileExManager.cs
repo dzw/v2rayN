@@ -164,6 +164,28 @@ public class ProfileExManager
         IndexIdEnqueue(indexId);
     }
 
+    public void IncrementSpeedTestCount(string indexId, bool passed)
+    {
+        var profileEx = GetProfileExItem(indexId);
+
+        profileEx.SpeedTestTotal++;
+        if (passed)
+        {
+            profileEx.SpeedTestPassed++;
+        }
+        IndexIdEnqueue(indexId);
+    }
+
+    public string GetSpeedPassRate(string indexId)
+    {
+        var profileEx = _lstProfileEx.FirstOrDefault(t => t.IndexId == indexId);
+        if (profileEx == null || profileEx.SpeedTestTotal <= 0)
+        {
+            return string.Empty;
+        }
+        return $"{profileEx.SpeedTestPassed}/{profileEx.SpeedTestTotal}";
+    }
+
     public int GetSort(string indexId)
     {
         var profileEx = _lstProfileEx.FirstOrDefault(t => t.IndexId == indexId);

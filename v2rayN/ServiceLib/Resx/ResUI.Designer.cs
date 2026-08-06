@@ -511,6 +511,15 @@ namespace ServiceLib.Resx {
         }
 
         /// <summary>
+        ///   查找类似 Pass Rate 的本地化字符串。
+        /// </summary>
+        public static string LvSpeedPassRate {
+            get {
+                return ResourceManager.GetString("LvSpeedPassRate", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 More URLs, separated by commas; Subscription conversion will be invalid 的本地化字符串。
         /// </summary>
         public static string LvMoreUrl {

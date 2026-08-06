@@ -26,6 +26,7 @@ public partial class SubEditWindow
             this.Bind(ViewModel, vm => vm.SelectedSource.NextProfile, v => v.txtNextProfile.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedSource.PreSocksPort, v => v.txtPreSocksPort.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedSource.Memo, v => v.txtMemo.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.SelectedSource.LockGroupNodes, v => v.togLockGroupNodes.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.CustomCoreType, v => v.cmbCustomCoreType.Text).DisposeWith(disposables);
 
             this.BindCommand(ViewModel, vm => vm.SelectPrevProfileCmd, v => v.btnSelectPrevProfile).DisposeWith(disposables);

@@ -65,6 +65,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -343,6 +344,20 @@
                     AcceptsReturn="True"
                     Style="{StaticResource MyOutlinedTextBox}"
                     TextWrapping="Wrap" />
+
+                <TextBlock
+                    Grid.Row="14"
+                    Grid.Column="0"
+                    Margin="{StaticResource Margin4}"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource ToolbarTextBlock}"
+                    Text="{x:Static resx:ResUI.LvLockGroupNodes}" />
+                <ToggleButton
+                    x:Name="togLockGroupNodes"
+                    Grid.Row="14"
+                    Grid.Column="1"
+                    Margin="{StaticResource Margin4}"
+                    HorizontalAlignment="Left" />
             </Grid>
         </ScrollViewer>
     </DockPanel>

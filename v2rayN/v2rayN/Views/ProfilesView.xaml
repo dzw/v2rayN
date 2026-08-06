@@ -358,6 +358,12 @@
                     </base:MyDGTextColumn>
 
                     <base:MyDGTextColumn
+                        Width="60"
+                        Binding="{Binding SpeedPassRate}"
+                        ExName="SpeedPassRate"
+                        Header="{x:Static resx:ResUI.LvSpeedPassRate}" />
+
+                    <base:MyDGTextColumn
                         x:Name="colTodayUp"
                         Width="100"
                         Binding="{Binding TodayUp}"

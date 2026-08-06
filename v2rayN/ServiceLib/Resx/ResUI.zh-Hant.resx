@@ -1347,6 +1347,9 @@
   <data name="LvLockGroupNodes" xml:space="preserve">
     <value>鎖定分組節點</value>
   </data>
+  <data name="LvSpeedPassRate" xml:space="preserve">
+    <value>通過率</value>
+  </data>
   <data name="TbSettingsLinuxSudoPassword" xml:space="preserve">
     <value>系統的 sudo 密碼</value>
   </data>

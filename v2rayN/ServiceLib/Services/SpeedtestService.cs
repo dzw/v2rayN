@@ -530,6 +530,8 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         if (indexId.IsNotEmpty() && speed.IsNotEmpty())
         {
             ProfileExManager.Instance.SetTestMessage(indexId, speed);
+            decimal.TryParse(speed, out var dec);
+            ProfileExManager.Instance.IncrementSpeedTestCount(indexId, dec > 0);
         }
     }
 
