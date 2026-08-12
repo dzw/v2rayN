@@ -277,6 +277,11 @@ public partial class ProfilesViewModel : MyReactiveObject
 
         #endregion AppEvents
 
+        RefreshServersRequested
+            .AsObservable()
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
+            .Subscribe(async _ => await RefreshServersBiz());
+
         _ = Init();
     }
 
@@ -287,7 +292,7 @@ public partial class ProfilesViewModel : MyReactiveObject
         SelectedMoveToGroup = new();
 
         await RefreshSubscriptions();
-        //await RefreshServers();
+        await RefreshServers();
     }
 
     #endregion Init

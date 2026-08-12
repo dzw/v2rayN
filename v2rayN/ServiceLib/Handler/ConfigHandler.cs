@@ -1244,7 +1244,7 @@ public static class ConfigHandler
         }
         if (maxSort > 0)
         {
-            ProfileExManager.Instance.SetSort(profileItem.IndexId, maxSort + 1);
+            ProfileExManager.Instance.SetSort(profileItem.IndexId, maxSort < int.MaxValue ? maxSort + 1 : maxSort);
         }
 
         if (toFile)
@@ -2284,7 +2284,7 @@ public static class ConfigHandler
                     var lstSubs = await AppManager.Instance.SubItems();
                     maxSort = lstSubs.LastOrDefault()?.Sort ?? 0;
                 }
-                item.Sort = maxSort + 1;
+                item.Sort = maxSort < int.MaxValue ? maxSort + 1 : maxSort;
             }
         }
         if (await SQLiteHelper.Instance.ReplaceAsync(item) > 0)
@@ -2719,7 +2719,7 @@ public static class ConfigHandler
         {
             Remarks = $"{ver}绕过大陆(Whitelist)",
             Url = string.Empty,
-            Sort = maxSort + 1,
+            Sort = maxSort < int.MaxValue ? maxSort + 1 : maxSort,
         };
         await AddBatchRoutingRules(item2, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "white"));
 
@@ -2728,7 +2728,7 @@ public static class ConfigHandler
         {
             Remarks = $"{ver}黑名单(Blacklist)",
             Url = string.Empty,
-            Sort = maxSort + 2,
+            Sort = maxSort < int.MaxValue - 1 ? maxSort + 2 : maxSort + 1,
         };
         await AddBatchRoutingRules(item3, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "black"));
 

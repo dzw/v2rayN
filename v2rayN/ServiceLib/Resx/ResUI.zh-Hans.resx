@@ -1378,7 +1378,7 @@
     <value>通过率</value>
   </data>
   <data name="LvRecycleBin" xml:space="preserve">
-    <value>回收站</value>
+    <value>黑名单</value>
   </data>
   <data name="LvShowOnlyNoSpeed" xml:space="preserve">
     <value>无速度</value>

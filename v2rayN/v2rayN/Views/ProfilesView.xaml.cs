@@ -54,6 +54,7 @@ public partial class ProfilesView
             this.BindCommand(ViewModel, vm => vm.SubGroupUpdateCmd, v => v.menuSubGroupUpdate).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.SubGroupUpdateViaProxyCmd, v => v.menuSubGroupUpdateViaProxy).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.EditSubCmd, v => v.menuSubGroupSetting).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.DeleteSubCmd, v => v.menuSubGroupDelete).DisposeWith(disposables);
 
             //servers delete
             this.BindCommand(ViewModel, vm => vm.EditServerCmd, v => v.menuEditServer).DisposeWith(disposables);

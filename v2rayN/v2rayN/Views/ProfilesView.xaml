@@ -44,6 +44,10 @@
                                 x:Name="menuSubGroupSetting"
                                 Height="{StaticResource MenuItemHeight}"
                                 Header="{x:Static resx:ResUI.menuSubSetting}" />
+                            <MenuItem
+                                x:Name="menuSubGroupDelete"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubDelete}" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>

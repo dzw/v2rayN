@@ -1348,7 +1348,7 @@
     <value>Pass Rate</value>
   </data>
   <data name="LvRecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Blacklist</value>
   </data>
   <data name="LvShowOnlyNoSpeed" xml:space="preserve">
     <value>No Speed</value>
