@@ -12,6 +12,7 @@ public partial class ProfilesViewModel : MyReactiveObject
 
     public EventChannel<RxVoid> ReloadRequested { get; } = new();
     public EventChannel<RxVoid> RefreshServersRequested { get; } = new();
+    public EventChannel<RxVoid> ExploreRequested { get; } = new();
 
     #region private prop
 
@@ -80,6 +81,7 @@ public partial class ProfilesViewModel : MyReactiveObject
     public ReactiveCommand<RxVoid, RxVoid> SortServerResultCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> RemoveInvalidServerResultCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> FastRealPingCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> ExploreCmd { get; }
 
     //servers export
     public ReactiveCommand<RxVoid, RxVoid> Export2ClientConfigCmd { get; }
@@ -186,6 +188,11 @@ public partial class ProfilesViewModel : MyReactiveObject
         FastRealPingCmd = ReactiveCommand.CreateFromTask(async () =>
         {
             await ServerSpeedtest(ESpeedActionType.FastRealping);
+        });
+        ExploreCmd = ReactiveCommand.Create(() =>
+        {
+            // 切换到独立的"探索"分页, 由 ExploreViewModel 负责抓取与导入
+            ExploreRequested.Publish();
         });
         MixedTestServerCmd = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -733,6 +740,35 @@ public partial class ProfilesViewModel : MyReactiveObject
         SelectedMoveToGroup = new();
     }
 
+    /// <summary>
+    /// 将当前选中的节点移动到指定分组（用于把节点拖拽到分组列表上的场景）。
+    /// 锁定分组 (LockGroupNodes) 不允许移入。
+    /// </summary>
+    public async Task MoveToGroupById(string subId)
+    {
+        if (subId.IsNullOrEmpty())
+        {
+            return;
+        }
+
+        var sub = (await AppManager.Instance.SubItems())?.FirstOrDefault(t => t.Id == subId);
+        if (sub is null)
+        {
+            return;
+        }
+
+        var lstSelected = await GetProfileItems(true);
+        if (lstSelected is null || lstSelected.Count == 0)
+        {
+            return;
+        }
+
+        await ConfigHandler.MoveToGroup(_config, lstSelected, sub.Id);
+        NoticeManager.Instance.Enqueue(ResUI.OperationSuccess);
+
+        await RefreshServers();
+    }
+
     public async Task MoveServer(EMove eMove)
     {
         var item = _lstProfile.FirstOrDefault(t => t.IndexId == SelectedProfile.IndexId);
@@ -915,6 +951,121 @@ public partial class ProfilesViewModel : MyReactiveObject
         else
         {
             NoticeManager.Instance.Enqueue(ResUI.OperationFailed);
+        }
+    }
+
+    public async Task ExploreNodesAsync()
+    {
+        // 1. 收集除"锁定分组"外节点的 key（Hysteria2 / VMess / VLESS 均使用 Password 字段）
+        var allProfiles = await AppManager.Instance.ProfileItems(string.Empty);
+        if (allProfiles is null || allProfiles.Count == 0)
+        {
+            NoticeManager.Instance.Enqueue(ResUI.ExploreNoNodes);
+            return;
+        }
+
+        var subItems = await AppManager.Instance.SubItems();
+        var lockedSubIds = (subItems ?? [])
+            .Where(t => t.LockGroupNodes)
+            .Select(t => t.Id)
+            .ToHashSet();
+
+        var keys = allProfiles
+            .Where(t => t.Subid != Global.RecycleBinSubId && !lockedSubIds.Contains(t.Subid))
+            .Where(t => t.ConfigType is EConfigType.Hysteria2 or EConfigType.VMess or EConfigType.VLESS)
+            .Select(t => t.Password)
+            .Where(p => !p.IsNullOrEmpty())
+            .Distinct()
+            .ToList();
+
+        if (keys.Count == 0)
+        {
+            NoticeManager.Instance.Enqueue(ResUI.menuExploreNodes + " - " + ResUI.ExploreNoNodes);
+            return;
+        }
+
+        // 2. 将 key 列表写入临时 JSON，供 Python 脚本读取
+        var tmpJson = Path.Combine(Path.GetTempPath(), $"v2rayn_explore_{Guid.NewGuid():N}.json");
+        var tmpOut = Path.Combine(Path.GetTempPath(), $"v2rayn_explore_out_{Guid.NewGuid():N}.txt");
+        File.WriteAllText(tmpJson, JsonUtils.Serialize(keys, false));
+
+        // 3. 调用 Python 探索脚本
+        var scriptPath = Path.Combine(AppContext.BaseDirectory, "explore_nodes.py");
+        if (!File.Exists(scriptPath))
+        {
+            NoticeManager.Instance.Enqueue($"{ResUI.menuExploreNodes}: explore_nodes.py not found at {scriptPath}");
+            return;
+        }
+
+        NoticeManager.Instance.SendMessage($"{ResUI.menuExploreNodes}: {keys.Count} keys, searching...");
+        var resultText = await Task.Run(() =>
+        {
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "python",
+                    Arguments = $"\"{scriptPath}\" \"{tmpJson}\" \"{tmpOut}\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                };
+                using var proc = Process.Start(psi) ?? throw new Exception("failed to start python");
+                var err = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+                if (proc.ExitCode != 0)
+                {
+                    return $"PYTHON_ERROR:{err}";
+                }
+                return File.Exists(tmpOut) ? File.ReadAllText(tmpOut) : string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return $"PYTHON_ERROR:{ex.Message}";
+            }
+        });
+
+        File.Delete(tmpJson);
+        File.Delete(tmpOut);
+
+        if (resultText.StartsWith("PYTHON_ERROR:"))
+        {
+            NoticeManager.Instance.Enqueue($"{ResUI.menuExploreNodes}: {resultText[13..]}");
+            return;
+        }
+
+        // 4. 导入解析到的新节点（跳过 v2rayN 不支持的 ssr://）
+        var cleaned = string.Join(Environment.NewLine,
+            resultText.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim())
+                .Where(t => !t.StartsWith("ssr://", StringComparison.OrdinalIgnoreCase)));
+
+        if (cleaned.IsNullOrEmpty())
+        {
+            NoticeManager.Instance.Enqueue($"{ResUI.menuExploreNodes}: " + ResUI.ExploreNoNodes);
+            return;
+        }
+
+        var added = await ConfigHandler.AddBatchServers(_config, cleaned, Global.ExploreSubId, false);
+        if (added > 0)
+        {
+            // 确保存在"探索节点"分组
+            var subs = await AppManager.Instance.SubItems();
+            if (subs?.All(t => t.Id != Global.ExploreSubId) == true)
+            {
+                await ConfigHandler.AddSubItem(_config, new SubItem
+                {
+                    Id = Global.ExploreSubId,
+                    Remarks = ResUI.menuExploreNodes,
+                });
+            }
+            NoticeManager.Instance.SendMessage($"{ResUI.menuExploreNodes}: +{added}");
+            RefreshServersRequested.Publish();
+        }
+        else
+        {
+            NoticeManager.Instance.Enqueue($"{ResUI.menuExploreNodes}: " + ResUI.OperationFailed);
         }
     }
 

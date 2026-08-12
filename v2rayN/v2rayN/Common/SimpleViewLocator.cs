@@ -25,6 +25,7 @@ public class SimpleViewLocator : IViewLocator
         Register<OptionSettingViewModel, OptionSettingWindow>();
         Register<ProfilesSelectViewModel, ProfilesSelectWindow>();
         Register<ProfilesViewModel, ProfilesView>();
+        Register<ExploreViewModel, ExploreView>();
         Register<RoutingRuleDetailsViewModel, RoutingRuleDetailsWindow>();
         Register<RoutingRuleSettingViewModel, RoutingRuleSettingWindow>();
         Register<RoutingSettingViewModel, RoutingSettingWindow>();

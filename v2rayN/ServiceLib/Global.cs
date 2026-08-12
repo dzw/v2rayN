@@ -97,6 +97,7 @@ public class Global
     public const string StringFalse = "false";
 
     public const string RecycleBinSubId = "recycle_bin";
+    public const string ExploreSubId = "explore_nodes";
     public const int SqliteMaxBatchSize = 10000;
 
     public const string SingboxDirectDNSTag = "direct_dns";

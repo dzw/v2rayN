@@ -879,6 +879,33 @@
   <data name="menuMixedTestServer" xml:space="preserve">
     <value>一键多线程测试延迟和速度 (Ctrl+E)</value>
   </data>
+  <data name="menuExploreNodes" xml:space="preserve">
+    <value>通过搜索探索新节点 (Google + 分享站)</value>
+  </data>
+  <data name="ExploreNoNodes" xml:space="preserve">
+    <value>未找到新节点</value>
+  </data>
+  <data name="MoveToGroupNotAllowed" xml:space="preserve">
+    <value>不允许移动到锁定分组</value>
+  </data>
+  <data name="TbProxy" xml:space="preserve">
+    <value>代理</value>
+  </data>
+  <data name="ImportSelected" xml:space="preserve">
+    <value>导入选中</value>
+  </data>
+  <data name="ImportAll" xml:space="preserve">
+    <value>导入全部</value>
+  </data>
+  <data name="menuExploreSources" xml:space="preserve">
+    <value>数据源（插件）</value>
+  </data>
+  <data name="menuExploreResults" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <data name="LvTestDelay" xml:space="preserve">
     <value>延迟 (ms)</value>
   </data>

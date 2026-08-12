@@ -1107,7 +1107,7 @@ public static class ConfigHandler
                         .OrderBy(item =>
                         {
                             var msg = profileExMap.GetValueOrDefault(item.IndexId)?.Message ?? "";
-                            return msg.IsNullOrEmpty() || msg == "0.0" ? 0 : 1;
+                            return msg.IsNullOrEmpty() || msg == "0.0" ? "" : msg;
                         }))
                     {
                         ProfileExManager.Instance.SetSort(item.IndexId, maxSort + i);
@@ -2147,7 +2147,52 @@ public static class ConfigHandler
             }
         }
 
+        //订阅更新后, 清理已在回收站中的节点 (用户已删除的不应再出现在订阅中)
+        if (isSub && subid.IsNotEmpty() && counter > 0)
+        {
+            await RemoveBlacklistedFromSubscription(config, subid);
+        }
+
         return counter;
+    }
+
+    /// <summary>
+    /// 订阅更新后, 检查本次导入的订阅节点是否已在回收站中;
+    /// 若存在(即用户此前手动删除过), 则把该订阅节点移入回收站, 使其不再出现在订阅分组里。
+    /// </summary>
+    private static async Task RemoveBlacklistedFromSubscription(Config config, string subid)
+    {
+        try
+        {
+            var lstNew = await AppManager.Instance.ProfileItems(subid);
+            if (lstNew is null || lstNew.Count == 0)
+            {
+                return;
+            }
+
+            var lstRecycle = await AppManager.Instance.ProfileItems(Global.RecycleBinSubId);
+            if (lstRecycle is null || lstRecycle.Count == 0)
+            {
+                return;
+            }
+
+            var toRemove = lstNew
+                .Where(t => lstRecycle.Any(rb => CompareProfileItem(t, rb, true)))
+                .ToList();
+            if (toRemove.Count == 0)
+            {
+                return;
+            }
+
+            // 移入回收站 = 从订阅分组移除 (用户已删除的不再出现)
+            await RemoveServers(config, toRemove);
+
+            Logging.SaveLog($"RemoveBlacklistedFromSubscription: {toRemove.Count} node(s) moved to recycle bin");
+        }
+        catch (Exception ex)
+        {
+            Logging.SaveLog("RemoveBlacklistedFromSubscription", ex);
+        }
     }
 
     #endregion Batch add servers

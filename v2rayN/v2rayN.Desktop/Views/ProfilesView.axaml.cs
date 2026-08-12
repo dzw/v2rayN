@@ -23,14 +23,17 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         lstProfiles.DoubleTapped += LstProfiles_DoubleTapped;
         lstProfiles.LoadingRow += LstProfiles_LoadingRow;
         lstProfiles.Sorting += LstProfiles_Sorting;
-        if (_config.UiItem.EnableDragDropSort)
-        {
-            lstProfiles.SetValue(DragDrop.AllowDropProperty, true);
 
-            lstProfiles.AddHandler(PointerPressedEvent, LstProfiles_PointerPressed, RoutingStrategies.Bubble, true);
-            lstProfiles.AddHandler(DragDrop.DragOverEvent, LstProfiles_DragOver, RoutingStrategies.Bubble);
-            lstProfiles.AddHandler(DragDrop.DropEvent, LstProfiles_Drop, RoutingStrategies.Bubble);
-        }
+        // 节点拖拽: 发起拖拽 + 组内排序 (受开关控制)
+        lstProfiles.SetValue(DragDrop.AllowDropProperty, true);
+        lstProfiles.AddHandler(PointerPressedEvent, LstProfiles_PointerPressed, RoutingStrategies.Bubble, true);
+        lstProfiles.AddHandler(DragDrop.DragOverEvent, LstProfiles_DragOver, RoutingStrategies.Bubble);
+        lstProfiles.AddHandler(DragDrop.DropEvent, LstProfiles_Drop, RoutingStrategies.Bubble);
+
+        // 把节点拖拽到分组列表(lstGroup)上 -> 移动到该分组
+        lstGroup.SetValue(DragDrop.AllowDropProperty, true);
+        lstGroup.AddHandler(DragDrop.DragOverEvent, LstGroup_DragOver, RoutingStrategies.Bubble);
+        lstGroup.AddHandler(DragDrop.DropEvent, LstGroup_Drop, RoutingStrategies.Bubble);
 
         this.WhenActivated(disposables =>
         {
@@ -74,6 +77,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             this.BindCommand(ViewModel, vm => vm.SortServerResultCmd, v => v.menuSortServerResult).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.RemoveInvalidServerResultCmd, v => v.menuRemoveInvalidServerResult).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.FastRealPingCmd, v => v.btnFastRealPing).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.ExploreCmd, v => v.btnExploreNodes).DisposeWith(disposables);
 
             //servers export
             this.BindCommand(ViewModel, vm => vm.Export2ClientConfigCmd, v => v.menuExport2ClientConfig).DisposeWith(disposables);
@@ -525,6 +529,35 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         {
             ViewModel?.MoveServerTo(oldIndex, targetItem);
         }
+    }
+
+    private void LstGroup_DragOver(object? sender, DragEventArgs e)
+    {
+        if (!e.DataTransfer.Contains(LstProfilesRowFormat))
+        {
+            e.DragEffects = DragDropEffects.None;
+            return;
+        }
+        e.DragEffects = DragDropEffects.Move;
+    }
+
+    private void LstGroup_Drop(object? sender, DragEventArgs e)
+    {
+        if (!e.DataTransfer.Contains(LstProfilesRowFormat))
+        {
+            return;
+        }
+        if (e.Source is not Visual visualTarget)
+        {
+            return;
+        }
+        var targetItem = visualTarget.FindAncestorOfType<ListBoxItem>(true);
+        if (targetItem is not { DataContext: SubItem sub })
+        {
+            return;
+        }
+        e.DragEffects = DragDropEffects.Move;
+        _ = ViewModel?.MoveToGroupById(sub.Id);
     }
 
     #endregion Drag and Drop

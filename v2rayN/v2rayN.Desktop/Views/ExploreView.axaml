@@ -1,0 +1,140 @@
+<UserControl
+    x:Class="v2rayN.Desktop.Views.ExploreView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
+    xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
+    x:Name="Root"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vms:ExploreViewModel"
+    Design.DataContext="{x:Static dd:DesignData.Explore}"
+    mc:Ignorable="d">
+    <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+        <!-- 顶部工具栏 -->
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,6">
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="0,0,4,0"
+                Text="{x:Static resx:ResUI.TbProxy}" />
+            <TextBox
+                Width="240"
+                Margin="0,0,8,0"
+                Text="{Binding ProxyUrl}"
+                PlaceholderText="http://127.0.0.1:7890" />
+            <Button
+                Margin="0,0,4,0"
+                Classes="Success"
+                Command="{Binding StartExploreCmd}"
+                Content="{x:Static resx:ResUI.menuExploreNodes}" />
+            <Button
+                Margin="0,0,4,0"
+                Classes="Warning"
+                Command="{Binding StopExploreCmd}"
+                Content="{x:Static resx:ResUI.Cancel}" />
+            <Button
+                Margin="0,0,4,0"
+                Classes="Primary"
+                Command="{Binding ImportSelectedCmd}"
+                Content="{x:Static resx:ResUI.ImportSelected}" />
+            <Button
+                Margin="0,0,4,0"
+                Classes="Primary"
+                Command="{Binding ImportAllCmd}"
+                Content="{x:Static resx:ResUI.ImportAll}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="8,0,0,0"
+                Text="{Binding KeyCount, StringFormat='{}{0} keys'}" />
+        </WrapPanel>
+
+        <!-- 主体: 左源列表 + 右结果 -->
+        <Grid Grid.Row="1" ColumnDefinitions="320,*">
+            <!-- 数据源(插件) -->
+            <Grid Grid.Column="0" Margin="0,0,6,0" RowDefinitions="Auto,*">
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{x:Static resx:ResUI.menuExploreSources}" />
+                    <Button
+                        Margin="8,0,0,0"
+                        Classes="IconButton Success"
+                        Command="{Binding AddShareSiteCmd}"
+                        ToolTip.Tip="+">
+                        <Button.Content>
+                            <PathIcon Data="{StaticResource building_add}" />
+                        </Button.Content>
+                    </Button>
+                    <Button
+                        Margin="4,0,0,0"
+                        Classes="IconButton Danger"
+                        Command="{Binding RemoveShareSiteCmd}"
+                        ToolTip.Tip="-">
+                        <Button.Content>
+                            <PathIcon Data="{StaticResource building_delete}" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <ListBox
+                    Grid.Row="1"
+                    x:Name="lstSources"
+                    ItemsSource="{Binding Sources}"
+                    SelectedItem="{Binding SelectedShareSite}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <CheckBox Grid.Column="0" IsChecked="{Binding Enabled}" />
+                                <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock
+                                        FontSize="11"
+                                        Foreground="Gray"
+                                        Text="{Binding Url}"
+                                        IsVisible="{Binding Url, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Column="2"
+                                    Margin="6,0,0,0"
+                                    FontSize="11"
+                                    Foreground="Gray"
+                                    Text="{Binding Type}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <!-- 结果 -->
+            <DataGrid
+                Grid.Column="1"
+                x:Name="lstResults"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding Results}"
+                SelectionMode="Extended">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding}"
+                        Header="{x:Static resx:ResUI.menuExploreResults}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- 进度 -->
+        <TextBox
+            Grid.Row="2"
+            Height="90"
+            Margin="0,6,0,0"
+            AcceptsReturn="True"
+            FontSize="11"
+            IsReadOnly="True"
+            Text="{Binding ProgressText}"
+            TextWrapping="Wrap"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</UserControl>

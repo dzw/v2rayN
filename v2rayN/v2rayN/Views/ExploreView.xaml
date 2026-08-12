@@ -1,0 +1,146 @@
+<reactiveui:ReactiveUserControl
+    x:Class="v2rayN.Views.ExploreView"
+    x:TypeArguments="vms:ExploreViewModel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:reactiveui="http://reactiveui.net"
+    xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
+    xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
+    mc:Ignorable="d">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 顶部工具栏 -->
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,6">
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="0,0,4,0"
+                Text="{x:Static resx:ResUI.TbProxy}" />
+            <TextBox
+                x:Name="txtProxy"
+                Width="240"
+                Margin="0,0,8,0"
+                Text="{Binding ProxyUrl}"
+                materialDesign:HintAssist.Hint="http://127.0.0.1:7890" />
+            <Button
+                Margin="0,0,4,0"
+                Command="{Binding StartExploreCmd}"
+                Content="{x:Static resx:ResUI.menuExploreNodes}" />
+            <Button
+                Margin="0,0,4,0"
+                Command="{Binding StopExploreCmd}"
+                Content="{x:Static resx:ResUI.Cancel}" />
+            <Button
+                Margin="0,0,4,0"
+                Command="{Binding ImportSelectedCmd}"
+                Content="{x:Static resx:ResUI.ImportSelected}" />
+            <Button
+                Margin="0,0,4,0"
+                Command="{Binding ImportAllCmd}"
+                Content="{x:Static resx:ResUI.ImportAll}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="8,0,0,0"
+                Text="{Binding KeyCount, StringFormat='{}{0} keys'}" />
+        </WrapPanel>
+
+        <!-- 主体 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 数据源(插件) -->
+            <Grid Grid.Column="0" Margin="0,0,6,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{x:Static resx:ResUI.menuExploreSources}" />
+                    <Button
+                        Margin="8,0,0,0"
+                        Padding="4"
+                        Command="{Binding AddShareSiteCmd}"
+                        Content="+" />
+                    <Button
+                        Margin="4,0,0,0"
+                        Padding="4"
+                        Command="{Binding RemoveShareSiteCmd}"
+                        Content="-" />
+                </StackPanel>
+                <ListBox
+                    x:Name="lstSources"
+                    Grid.Row="1"
+                    ItemsSource="{Binding Sources}"
+                    SelectedItem="{Binding SelectedShareSite}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" IsChecked="{Binding Enabled}" />
+                                <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock
+                                        FontSize="11"
+                                        Foreground="Gray"
+                                        Text="{Binding Url}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Column="2"
+                                    Margin="6,0,0,0"
+                                    FontSize="11"
+                                    Foreground="Gray"
+                                    Text="{Binding Type}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <!-- 结果 -->
+            <DataGrid
+                x:Name="lstResults"
+                Grid.Column="1"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding Results}"
+                SelectionMode="Extended"
+                SelectionChanged="LstResults_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding}"
+                        Header="{x:Static resx:ResUI.menuExploreResults}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- 进度 -->
+        <TextBox
+            Grid.Row="2"
+            Height="90"
+            Margin="0,6,0,0"
+            AcceptsReturn="True"
+            FontSize="11"
+            IsReadOnly="True"
+            Text="{Binding ProgressText}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</reactiveui:ReactiveUserControl>

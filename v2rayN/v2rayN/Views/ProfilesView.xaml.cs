@@ -33,6 +33,11 @@ public partial class ProfilesView
             lstProfiles.MouseMove += LstProfiles_MouseMove;
             lstProfiles.DragEnter += LstProfiles_DragEnter;
             lstProfiles.Drop += LstProfiles_Drop;
+
+            // 允许把节点拖拽到分组列表(lstGroup)上, 完成移动到该分组
+            lstGroup.AllowDrop = true;
+            lstGroup.DragEnter += LstGroup_DragEnter;
+            lstGroup.Drop += LstGroup_Drop;
         }
 
         this.WhenActivated(disposables =>
@@ -78,6 +83,7 @@ public partial class ProfilesView
             this.BindCommand(ViewModel, vm => vm.SortServerResultCmd, v => v.menuSortServerResult).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.RemoveInvalidServerResultCmd, v => v.menuRemoveInvalidServerResult).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.FastRealPingCmd, v => v.btnFastRealPing).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.ExploreCmd, v => v.btnExploreNodes).DisposeWith(disposables);
 
             //servers export
             this.BindCommand(ViewModel, vm => vm.Export2ClientConfigCmd, v => v.menuExport2ClientConfig).DisposeWith(disposables);
@@ -496,6 +502,38 @@ public partial class ProfilesView
             ViewModel?.MoveServerTo(startIndex, item);
 
             startIndex = -1;
+        }
+    }
+
+    private void LstGroup_DragEnter(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetDataPresent(formatData))
+        {
+            e.Effects = DragDropEffects.Move;
+        }
+        else
+        {
+            e.Effects = DragDropEffects.None;
+        }
+        e.Handled = true;
+    }
+
+    private void LstGroup_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(formatData))
+        {
+            return;
+        }
+        var lbItem = FindAncestor<ListBoxItem>((DependencyObject)e.OriginalSource);
+        if (lbItem == null)
+        {
+            return;
+        }
+        if (lstGroup.ItemContainerGenerator.ItemFromContainer(lbItem) is SubItem sub && sub != null)
+        {
+            e.Effects = DragDropEffects.Move;
+            e.Handled = true;
+            _ = ViewModel?.MoveToGroupById(sub.Id);
         }
     }
 

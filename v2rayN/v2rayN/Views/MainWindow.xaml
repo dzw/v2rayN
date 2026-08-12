@@ -346,6 +346,7 @@
                             <TabItem x:Name="tabMsgView" Header="{x:Static resx:ResUI.MsgInformationTitle}" />
                             <TabItem x:Name="tabClashProxies" Header="{x:Static resx:ResUI.TbProxies}" />
                             <TabItem x:Name="tabClashConnections" Header="{x:Static resx:ResUI.TbConnections}" />
+                            <TabItem x:Name="tabExplore" Header="{x:Static resx:ResUI.menuExploreNodes}" />
                         </TabControl>
                     </Grid>
                     <Grid x:Name="gridMain1" Visibility="Collapsed">
@@ -395,6 +396,17 @@
                                     </StackPanel>
                                 </TabItem.Header>
                             </TabItem>
+                            <TabItem x:Name="tabExplore1">
+                                <TabItem.Header>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon HorizontalAlignment="Center" Kind="MagnifyPlusOutline" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource ToolbarTextBlock}"
+                                            Text="{x:Static resx:ResUI.menuExploreNodes}" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
                         </TabControl>
                     </Grid>
                     <Grid x:Name="gridMain2" Visibility="Collapsed">
@@ -411,6 +423,17 @@
                                             HorizontalAlignment="Center"
                                             Style="{StaticResource ToolbarTextBlock}"
                                             Text="{x:Static resx:ResUI.menuServers}" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+                            <TabItem x:Name="tabExplore2">
+                                <TabItem.Header>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon HorizontalAlignment="Center" Kind="MagnifyPlusOutline" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource ToolbarTextBlock}"
+                                            Text="{x:Static resx:ResUI.menuExploreNodes}" />
                                     </StackPanel>
                                 </TabItem.Header>
                             </TabItem>

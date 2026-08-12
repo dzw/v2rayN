@@ -879,6 +879,33 @@
   <data name="menuMixedTestServer" xml:space="preserve">
     <value>One-click multi-test latency and speed (Ctrl+E)</value>
   </data>
+  <data name="menuExploreNodes" xml:space="preserve">
+    <value>Explore new nodes via search (Google + share sites)</value>
+  </data>
+  <data name="ExploreNoNodes" xml:space="preserve">
+    <value>No new nodes found</value>
+  </data>
+  <data name="MoveToGroupNotAllowed" xml:space="preserve">
+    <value>Moving into a locked group is not allowed</value>
+  </data>
+  <data name="TbProxy" xml:space="preserve">
+    <value>Proxy</value>
+  </data>
+  <data name="ImportSelected" xml:space="preserve">
+    <value>Import selected</value>
+  </data>
+  <data name="ImportAll" xml:space="preserve">
+    <value>Import all</value>
+  </data>
+  <data name="menuExploreSources" xml:space="preserve">
+    <value>Sources (plug-ins)</value>
+  </data>
+  <data name="menuExploreResults" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="LvTestDelay" xml:space="preserve">
     <value>Delay (ms)</value>
   </data>

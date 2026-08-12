@@ -124,6 +124,15 @@
                     ToolTip="{x:Static resx:ResUI.menuMixedTestServer}">
                     <materialDesign:PackIcon VerticalAlignment="Center" Kind="Speedometer" />
                 </Button>
+                <Button
+                    x:Name="btnExploreNodes"
+                    Width="30"
+                    Height="30"
+                    Margin="{StaticResource MarginLeftRight4}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    ToolTip="{x:Static resx:ResUI.menuExploreNodes}">
+                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="MagnifyPlusOutline" />
+                </Button>
             </WrapPanel>
             <DataGrid
                 x:Name="lstProfiles"

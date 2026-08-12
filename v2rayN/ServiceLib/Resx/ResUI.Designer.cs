@@ -1267,6 +1267,87 @@ namespace ServiceLib.Resx {
         }
         
         /// <summary>
+        ///   查找类似 Explore new nodes via search (Google + share sites) 的本地化字符串。
+        /// </summary>
+        public static string menuExploreNodes {
+            get {
+                return ResourceManager.GetString("menuExploreNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No new nodes found 的本地化字符串。
+        /// </summary>
+        public static string ExploreNoNodes {
+            get {
+                return ResourceManager.GetString("ExploreNoNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Moving into a locked group is not allowed 的本地化字符串。
+        /// </summary>
+        public static string MoveToGroupNotAllowed {
+            get {
+                return ResourceManager.GetString("MoveToGroupNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Proxy 的本地化字符串。
+        /// </summary>
+        public static string TbProxy {
+            get {
+                return ResourceManager.GetString("TbProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import selected 的本地化字符串。
+        /// </summary>
+        public static string ImportSelected {
+            get {
+                return ResourceManager.GetString("ImportSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import all 的本地化字符串。
+        /// </summary>
+        public static string ImportAll {
+            get {
+                return ResourceManager.GetString("ImportAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sources (plug-ins) 的本地化字符串。
+        /// </summary>
+        public static string menuExploreSources {
+            get {
+                return ResourceManager.GetString("menuExploreSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Results 的本地化字符串。
+        /// </summary>
+        public static string menuExploreResults {
+            get {
+                return ResourceManager.GetString("menuExploreResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Direct 的本地化字符串。
         /// </summary>
         public static string menuModeDirect {

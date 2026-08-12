@@ -54,6 +54,30 @@
 		<None Update="v2rayN.icns">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Include="..\explore_nodes.py">
+			<Link>explore_nodes.py</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\explore_plugin_base.py">
+			<Link>explore_plugin_base.py</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\explore_plugin_gist.py">
+			<Link>explore_plugin_gist.py</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\explore_plugin_hiddify.py">
+			<Link>explore_plugin_hiddify.py</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\explore_plugin_clashgithub.py">
+			<Link>explore_plugin_clashgithub.py</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\explore_plugin_google.py">
+			<Link>explore_plugin_google.py</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>

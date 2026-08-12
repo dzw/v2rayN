@@ -96,6 +96,15 @@
                             <PathIcon Data="{StaticResource building_ping}" />
                         </Button.Content>
                     </Button>
+                    <Button
+                        x:Name="btnExploreNodes"
+                        Margin="{StaticResource MarginLr4}"
+                        Classes="IconButton Success"
+                        ToolTip.Tip="{x:Static resx:ResUI.menuExploreNodes}">
+                        <Button.Content>
+                            <PathIcon Data="{StaticResource building_search}" />
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
 
             </WrapPanel>

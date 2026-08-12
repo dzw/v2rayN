@@ -30,6 +30,8 @@ public static class DesignData
 
     public static ClashConnectionsViewModel? ClashConnections { get; } = SafeCreate(() => new ClashConnectionsViewModel());
 
+    public static ExploreViewModel? Explore { get; } = SafeCreate(() => new ExploreViewModel());
+
     public static CheckUpdateViewModel? CheckUpdate { get; } = SafeCreate(() => new CheckUpdateViewModel());
 
     public static DNSSettingViewModel? DNSSetting { get; } = SafeCreate(() => new DNSSettingViewModel());

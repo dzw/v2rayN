@@ -127,6 +127,7 @@
                         <TabItem x:Name="tabMsgView" Header="{x:Static resx:ResUI.MsgInformationTitle}" />
                         <TabItem x:Name="tabClashProxies" Header="{x:Static resx:ResUI.TbProxies}" />
                         <TabItem x:Name="tabClashConnections" Header="{x:Static resx:ResUI.TbConnections}" />
+                        <TabItem x:Name="tabExplore" Header="{x:Static resx:ResUI.menuExploreNodes}" />
                     </TabControl>
                 </Grid>
                 <Grid
@@ -142,6 +143,7 @@
                         <TabItem x:Name="tabMsgView1" Header="{x:Static resx:ResUI.MsgInformationTitle}" />
                         <TabItem x:Name="tabClashProxies1" Header="{x:Static resx:ResUI.TbProxies}" />
                         <TabItem x:Name="tabClashConnections1" Header="{x:Static resx:ResUI.TbConnections}" />
+                        <TabItem x:Name="tabExplore1" Header="{x:Static resx:ResUI.menuExploreNodes}" />
                     </TabControl>
                 </Grid>
                 <Grid x:Name="gridMain2" IsVisible="False">
@@ -150,6 +152,7 @@
                         <TabItem x:Name="tabMsgView2" Header="{x:Static resx:ResUI.MsgInformationTitle}" />
                         <TabItem x:Name="tabClashProxies2" Header="{x:Static resx:ResUI.TbProxies}" />
                         <TabItem x:Name="tabClashConnections2" Header="{x:Static resx:ResUI.TbConnections}" />
+                        <TabItem x:Name="tabExplore2" Header="{x:Static resx:ResUI.menuExploreNodes}" />
                     </TabControl>
                 </Grid>
             </Grid>
