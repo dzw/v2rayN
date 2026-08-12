@@ -412,39 +412,42 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         switch (orientation)
         {
             case EGirdOrientation.Horizontal:
-                this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfiles.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfilesServers.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabProfilesExplore.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.MsgViewModel, v => v.tabMsgView.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashProxiesViewModel, v => v.tabClashProxies.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashConnectionsViewModel, v => v.tabClashConnections.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabMsgView.IsVisible).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashProxies.IsVisible).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashConnections.IsVisible).DisposeWith(currentLayoutDisposables);
-                this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabExplore.Content).DisposeWith(currentLayoutDisposables);
                 this.Bind(ViewModel, vm => vm.TabMainSelectedIndex, v => v.tabMain.SelectedIndex).DisposeWith(currentLayoutDisposables);
+                this.Bind(ViewModel, vm => vm.TabProfilesSelectedIndex, v => v.tabProfiles.SelectedIndex).DisposeWith(currentLayoutDisposables);
                 break;
 
             case EGirdOrientation.Vertical:
-                this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfiles1.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfilesServers1.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabProfilesExplore1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.MsgViewModel, v => v.tabMsgView1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashProxiesViewModel, v => v.tabClashProxies1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashConnectionsViewModel, v => v.tabClashConnections1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabMsgView1.IsVisible).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashProxies1.IsVisible).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashConnections1.IsVisible).DisposeWith(currentLayoutDisposables);
-                this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabExplore1.Content).DisposeWith(currentLayoutDisposables);
                 this.Bind(ViewModel, vm => vm.TabMainSelectedIndex, v => v.tabMain1.SelectedIndex).DisposeWith(currentLayoutDisposables);
+                this.Bind(ViewModel, vm => vm.TabProfilesSelectedIndex, v => v.tabProfiles1.SelectedIndex).DisposeWith(currentLayoutDisposables);
                 break;
 
             case EGirdOrientation.Tab:
             default:
-                this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfiles2.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfilesServers2.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabProfilesExplore2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.MsgViewModel, v => v.tabMsgView2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashProxiesViewModel, v => v.tabClashProxies2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashConnectionsViewModel, v => v.tabClashConnections2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashProxies2.IsVisible).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashConnections2.IsVisible).DisposeWith(currentLayoutDisposables);
-                this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabExplore2.Content).DisposeWith(currentLayoutDisposables);
                 this.Bind(ViewModel, vm => vm.TabMainSelectedIndex, v => v.tabMain2.SelectedIndex).DisposeWith(currentLayoutDisposables);
+                this.Bind(ViewModel, vm => vm.TabProfilesSelectedIndex, v => v.tabProfilesInner2.SelectedIndex).DisposeWith(currentLayoutDisposables);
                 break;
         }
 

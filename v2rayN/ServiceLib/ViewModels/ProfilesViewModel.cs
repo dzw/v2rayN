@@ -13,6 +13,7 @@ public partial class ProfilesViewModel : MyReactiveObject
     public EventChannel<RxVoid> ReloadRequested { get; } = new();
     public EventChannel<RxVoid> RefreshServersRequested { get; } = new();
     public EventChannel<RxVoid> ExploreRequested { get; } = new();
+    public EventChannel<RxVoid> DohRequested { get; } = new();
 
     #region private prop
 
@@ -82,6 +83,7 @@ public partial class ProfilesViewModel : MyReactiveObject
     public ReactiveCommand<RxVoid, RxVoid> RemoveInvalidServerResultCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> FastRealPingCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> ExploreCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> DohCmd { get; }
 
     //servers export
     public ReactiveCommand<RxVoid, RxVoid> Export2ClientConfigCmd { get; }
@@ -193,6 +195,11 @@ public partial class ProfilesViewModel : MyReactiveObject
         {
             // 切换到独立的"探索"分页, 由 ExploreViewModel 负责抓取与导入
             ExploreRequested.Publish();
+        });
+        DohCmd = ReactiveCommand.Create(() =>
+        {
+            // 切换到 DoH 解析分页
+            DohRequested.Publish();
         });
         MixedTestServerCmd = ReactiveCommand.CreateFromTask(async () =>
         {

@@ -337,7 +337,17 @@
                             <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <ContentControl x:Name="tabProfiles" Grid.Column="0" />
+                        <TabControl x:Name="tabProfiles" Grid.Column="0">
+                            <TabItem Header="{x:Static resx:ResUI.menuServers}">
+                                <ContentControl x:Name="tabProfilesServers" />
+                            </TabItem>
+                            <TabItem Header="{x:Static resx:ResUI.menuExploreNodes}">
+                                <ContentControl x:Name="tabProfilesExplore" />
+                            </TabItem>
+                            <TabItem Header="{x:Static resx:ResUI.menuDoh}">
+                                <ContentControl x:Name="tabProfilesDoh" />
+                            </TabItem>
+                        </TabControl>
                         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
                         <TabControl
                             x:Name="tabMain"
@@ -346,7 +356,6 @@
                             <TabItem x:Name="tabMsgView" Header="{x:Static resx:ResUI.MsgInformationTitle}" />
                             <TabItem x:Name="tabClashProxies" Header="{x:Static resx:ResUI.TbProxies}" />
                             <TabItem x:Name="tabClashConnections" Header="{x:Static resx:ResUI.TbConnections}" />
-                            <TabItem x:Name="tabExplore" Header="{x:Static resx:ResUI.menuExploreNodes}" />
                         </TabControl>
                     </Grid>
                     <Grid x:Name="gridMain1" Visibility="Collapsed">
@@ -355,7 +364,17 @@
                             <RowDefinition Height="10" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <ContentControl x:Name="tabProfiles1" Grid.Row="0" />
+                        <TabControl x:Name="tabProfiles1" Grid.Row="0">
+                            <TabItem Header="{x:Static resx:ResUI.menuServers}">
+                                <ContentControl x:Name="tabProfilesServers1" />
+                            </TabItem>
+                            <TabItem Header="{x:Static resx:ResUI.menuExploreNodes}">
+                                <ContentControl x:Name="tabProfilesExplore1" />
+                            </TabItem>
+                            <TabItem Header="{x:Static resx:ResUI.menuDoh}">
+                                <ContentControl x:Name="tabProfilesDoh1" />
+                            </TabItem>
+                        </TabControl>
                         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" />
                         <TabControl
                             x:Name="tabMain1"
@@ -396,17 +415,6 @@
                                     </StackPanel>
                                 </TabItem.Header>
                             </TabItem>
-                            <TabItem x:Name="tabExplore1">
-                                <TabItem.Header>
-                                    <StackPanel>
-                                        <materialDesign:PackIcon HorizontalAlignment="Center" Kind="MagnifyPlusOutline" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            Style="{StaticResource ToolbarTextBlock}"
-                                            Text="{x:Static resx:ResUI.menuExploreNodes}" />
-                                    </StackPanel>
-                                </TabItem.Header>
-                            </TabItem>
                         </TabControl>
                     </Grid>
                     <Grid x:Name="gridMain2" Visibility="Collapsed">
@@ -425,17 +433,17 @@
                                             Text="{x:Static resx:ResUI.menuServers}" />
                                     </StackPanel>
                                 </TabItem.Header>
-                            </TabItem>
-                            <TabItem x:Name="tabExplore2">
-                                <TabItem.Header>
-                                    <StackPanel>
-                                        <materialDesign:PackIcon HorizontalAlignment="Center" Kind="MagnifyPlusOutline" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            Style="{StaticResource ToolbarTextBlock}"
-                                            Text="{x:Static resx:ResUI.menuExploreNodes}" />
-                                    </StackPanel>
-                                </TabItem.Header>
+                                <TabControl x:Name="tabProfilesInner2">
+                                    <TabItem Header="{x:Static resx:ResUI.menuServers}">
+                                        <ContentControl x:Name="tabProfilesServers2" />
+                                    </TabItem>
+                                    <TabItem Header="{x:Static resx:ResUI.menuExploreNodes}">
+                                        <ContentControl x:Name="tabProfilesExplore2" />
+                                    </TabItem>
+                                    <TabItem Header="{x:Static resx:ResUI.menuDoh}">
+                                        <ContentControl x:Name="tabProfilesDoh2" />
+                                    </TabItem>
+                                </TabControl>
                             </TabItem>
                             <TabItem x:Name="tabMsgView2">
                                 <TabItem.Header>

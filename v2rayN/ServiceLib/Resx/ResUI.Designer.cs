@@ -1274,6 +1274,69 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuExploreNodes", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 DoH resolver 的本地化字符串。
+        /// </summary>
+        public static string menuDoh {
+            get {
+                return ResourceManager.GetString("menuDoh", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Domain 的本地化字符串。
+        /// </summary>
+        public static string TBDohDomain {
+            get {
+                return ResourceManager.GetString("TBDohDomain", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 DoH URL 的本地化字符串。
+        /// </summary>
+        public static string TBDohUrl {
+            get {
+                return ResourceManager.GetString("TBDohUrl", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Proxy (optional) 的本地化字符串。
+        /// </summary>
+        public static string TBDohProxy {
+            get {
+                return ResourceManager.GetString("TBDohProxy", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Query 的本地化字符串。
+        /// </summary>
+        public static string DohQuery {
+            get {
+                return ResourceManager.GetString("DohQuery", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Type 的本地化字符串。
+        /// </summary>
+        public static string DohResolveType {
+            get {
+                return ResourceManager.GetString("DohResolveType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Resolved results 的本地化字符串。
+        /// </summary>
+        public static string DohResults {
+            get {
+                return ResourceManager.GetString("DohResults", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 No new nodes found 的本地化字符串。

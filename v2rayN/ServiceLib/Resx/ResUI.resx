@@ -882,6 +882,27 @@
   <data name="menuExploreNodes" xml:space="preserve">
     <value>Explore new nodes via search (Google + share sites)</value>
   </data>
+  <data name="menuDoh" xml:space="preserve">
+    <value>DoH resolver</value>
+  </data>
+  <data name="TBDohDomain" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="TBDohUrl" xml:space="preserve">
+    <value>DoH URL</value>
+  </data>
+  <data name="TBDohProxy" xml:space="preserve">
+    <value>Proxy (optional)</value>
+  </data>
+  <data name="DohQuery" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="DohResolveType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DohResults" xml:space="preserve">
+    <value>Resolved results</value>
+  </data>
   <data name="ExploreNoNodes" xml:space="preserve">
     <value>No new nodes found</value>
   </data>

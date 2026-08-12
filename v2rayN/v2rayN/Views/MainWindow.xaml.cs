@@ -369,7 +369,13 @@ public partial class MainWindow
         {
             case EGirdOrientation.Horizontal:
                 this.WhenAnyValue(v => v.ViewModel.ProfilesViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabProfiles, vm))
+                    .Subscribe(vm => ViewHost.Show(tabProfilesServers, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
+                    .Subscribe(vm => ViewHost.Show(tabProfilesExplore, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
+                    .Subscribe(vm => ViewHost.Show(tabProfilesDoh, vm))
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView, vm))
@@ -383,15 +389,19 @@ public partial class MainWindow
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabMsgView.Visibility).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashProxies.Visibility).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashConnections.Visibility).DisposeWith(currentLayoutDisposables);
-                this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabExplore, vm))
-                    .DisposeWith(currentLayoutDisposables);
                 this.Bind(ViewModel, vm => vm.TabMainSelectedIndex, v => v.tabMain.SelectedIndex).DisposeWith(currentLayoutDisposables);
+                this.Bind(ViewModel, vm => vm.TabProfilesSelectedIndex, v => v.tabProfiles.SelectedIndex).DisposeWith(currentLayoutDisposables);
                 break;
 
             case EGirdOrientation.Vertical:
                 this.WhenAnyValue(v => v.ViewModel.ProfilesViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabProfiles1, vm))
+                    .Subscribe(vm => ViewHost.Show(tabProfilesServers1, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
+                    .Subscribe(vm => ViewHost.Show(tabProfilesExplore1, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
+                    .Subscribe(vm => ViewHost.Show(tabProfilesDoh1, vm))
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView1, vm))
@@ -405,16 +415,20 @@ public partial class MainWindow
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabMsgView1.Visibility).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashProxies1.Visibility).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashConnections1.Visibility).DisposeWith(currentLayoutDisposables);
-                this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabExplore1, vm))
-                    .DisposeWith(currentLayoutDisposables);
                 this.Bind(ViewModel, vm => vm.TabMainSelectedIndex, v => v.tabMain1.SelectedIndex).DisposeWith(currentLayoutDisposables);
+                this.Bind(ViewModel, vm => vm.TabProfilesSelectedIndex, v => v.tabProfiles1.SelectedIndex).DisposeWith(currentLayoutDisposables);
                 break;
 
             case EGirdOrientation.Tab:
             default:
                 this.WhenAnyValue(v => v.ViewModel.ProfilesViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabProfiles2, vm))
+                    .Subscribe(vm => ViewHost.Show(tabProfilesServers2, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
+                    .Subscribe(vm => ViewHost.Show(tabProfilesExplore2, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
+                    .Subscribe(vm => ViewHost.Show(tabProfilesDoh2, vm))
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView2, vm))
@@ -427,10 +441,8 @@ public partial class MainWindow
                     .DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashProxies2.Visibility).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ShowClashUI, v => v.tabClashConnections2.Visibility).DisposeWith(currentLayoutDisposables);
-                this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabExplore2, vm))
-                    .DisposeWith(currentLayoutDisposables);
                 this.Bind(ViewModel, vm => vm.TabMainSelectedIndex, v => v.tabMain2.SelectedIndex).DisposeWith(currentLayoutDisposables);
+                this.Bind(ViewModel, vm => vm.TabProfilesSelectedIndex, v => v.tabProfilesInner2.SelectedIndex).DisposeWith(currentLayoutDisposables);
                 break;
         }
 

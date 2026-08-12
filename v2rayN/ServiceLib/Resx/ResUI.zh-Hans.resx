@@ -882,6 +882,27 @@
   <data name="menuExploreNodes" xml:space="preserve">
     <value>通过搜索探索新节点 (Google + 分享站)</value>
   </data>
+  <data name="menuDoh" xml:space="preserve">
+    <value>DoH 域名解析</value>
+  </data>
+  <data name="TBDohDomain" xml:space="preserve">
+    <value>域名</value>
+  </data>
+  <data name="TBDohUrl" xml:space="preserve">
+    <value>DoH 地址</value>
+  </data>
+  <data name="TBDohProxy" xml:space="preserve">
+    <value>代理（可选）</value>
+  </data>
+  <data name="DohQuery" xml:space="preserve">
+    <value>查询</value>
+  </data>
+  <data name="DohResolveType" xml:space="preserve">
+    <value>记录类型</value>
+  </data>
+  <data name="DohResults" xml:space="preserve">
+    <value>解析结果</value>
+  </data>
   <data name="ExploreNoNodes" xml:space="preserve">
     <value>未找到新节点</value>
   </data>
