@@ -129,13 +129,13 @@
                     <materialDesign:PackIcon VerticalAlignment="Center" Kind="Speedometer" />
                 </Button>
                 <Button
-                    x:Name="btnExploreNodes"
+                    x:Name="btnDoh"
                     Width="30"
                     Height="30"
                     Margin="{StaticResource MarginLeftRight4}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                    ToolTip="{x:Static resx:ResUI.menuExploreNodes}">
-                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="MagnifyPlusOutline" />
+                    ToolTip="{x:Static resx:ResUI.menuDoh}">
+                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="Web" />
                 </Button>
             </WrapPanel>
             <DataGrid

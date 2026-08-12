@@ -84,7 +84,7 @@ public partial class ProfilesView
             this.BindCommand(ViewModel, vm => vm.SortServerResultCmd, v => v.menuSortServerResult).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.RemoveInvalidServerResultCmd, v => v.menuRemoveInvalidServerResult).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.FastRealPingCmd, v => v.btnFastRealPing).DisposeWith(disposables);
-            this.BindCommand(ViewModel, vm => vm.ExploreCmd, v => v.btnExploreNodes).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.DohCmd, v => v.btnDoh).DisposeWith(disposables);
 
 
             //servers export

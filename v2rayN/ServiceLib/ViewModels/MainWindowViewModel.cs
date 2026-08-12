@@ -13,8 +13,6 @@ public partial class MainWindowViewModel : MyReactiveObject
     public MsgViewModel MsgViewModel { get; } = new();
     public ClashProxiesViewModel ClashProxiesViewModel { get; } = new();
     public ExploreViewModel ExploreViewModel { get; } = new();
-
-    public DohViewModel DohViewModel { get; } = new();
     public ClashConnectionsViewModel ClashConnectionsViewModel { get; } = new();
     public CheckUpdateViewModel CheckUpdateViewModel { get; } = new();
     public BackupAndRestoreViewModel BackupAndRestoreViewModel { get; } = new();
@@ -285,20 +283,10 @@ public partial class MainWindowViewModel : MyReactiveObject
             .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ => NavigateToExplore());
 
-        ProfilesViewModel.DohRequested
-            .AsObservable()
-            .ObserveOn(RxSchedulers.MainThreadScheduler)
-            .Subscribe(_ => NavigateToDoh());
-
         // 切换到独立的"探索"分页 (与 Profile 视图平级)
         void NavigateToExplore()
         {
             TabProfilesSelectedIndex = 1;
-        }
-
-        void NavigateToDoh()
-        {
-            TabProfilesSelectedIndex = 2;
         }
 
         var vmReloadRequestedList = new List<IObservable<RxVoid>>

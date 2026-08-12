@@ -374,9 +374,6 @@ public partial class MainWindow
                 this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
                     .Subscribe(vm => ViewHost.Show(tabProfilesExplore, vm))
                     .DisposeWith(currentLayoutDisposables);
-                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabProfilesDoh, vm))
-                    .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView, vm))
                     .DisposeWith(currentLayoutDisposables);
@@ -399,9 +396,6 @@ public partial class MainWindow
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
                     .Subscribe(vm => ViewHost.Show(tabProfilesExplore1, vm))
-                    .DisposeWith(currentLayoutDisposables);
-                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabProfilesDoh1, vm))
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView1, vm))
@@ -426,9 +420,6 @@ public partial class MainWindow
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
                     .Subscribe(vm => ViewHost.Show(tabProfilesExplore2, vm))
-                    .DisposeWith(currentLayoutDisposables);
-                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
-                    .Subscribe(vm => ViewHost.Show(tabProfilesDoh2, vm))
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView2, vm))
