@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using ReactiveUI;
 using ServiceLib.Common;
@@ -66,7 +67,14 @@ public partial class ExploreViewModel : MyReactiveObject
         });
 
         // 默认代理：本机 IP + 本地 socks 端口
-        ProxyUrl = $"{Global.HttpProtocol}{Global.Loopback}:{AppManager.Instance.GetLocalPort(EInboundProtocol.socks)}";
+        try
+        {
+            ProxyUrl = $"{Global.HttpProtocol}{Global.Loopback}:{AppManager.Instance.GetLocalPort(EInboundProtocol.socks)}";
+        }
+        catch
+        {
+            ProxyUrl = string.Empty;
+        }
 
         StartExploreCmd = ReactiveCommand.CreateFromTask(StartExploreAsync);
         StopExploreCmd = ReactiveCommand.Create(StopExplore);
@@ -74,6 +82,15 @@ public partial class ExploreViewModel : MyReactiveObject
         ImportSelectedCmd = ReactiveCommand.CreateFromTask(ImportSelectedAsync);
         AddShareSiteCmd = ReactiveCommand.Create(AddShareSite);
         RemoveShareSiteCmd = ReactiveCommand.Create(RemoveShareSite);
+
+        try
+        {
+            var dir = Path.Combine(Path.GetTempPath(), "v2rayn_diag");
+            Directory.CreateDirectory(dir);
+            File.AppendAllText(Path.Combine(dir, "explore.log"),
+                $"{DateTime.Now:HH:mm:ss} Ctor: Sources={Sources.Count} names=[{string.Join(",", Sources.Select(s => s.Name))}]\n");
+        }
+        catch { }
     }
 
     #region 源管理

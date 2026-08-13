@@ -21,7 +21,7 @@
                 Margin="0,0,8,0"
                 AcceptsReturn="True"
                 Text="{Binding Domains}"
-                Watermark="example.com" />
+                PlaceholderText="example.com" />
             <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="DoH 地址" />
             <TextBox Width="220" Margin="0,0,8,0" Text="{Binding DohUrl}" />
             <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="代理" />
@@ -29,7 +29,7 @@
                 Width="180"
                 Margin="0,0,8,0"
                 Text="{Binding ProxyUrl}"
-                Watermark="http://127.0.0.1:7890" />
+                PlaceholderText="http://127.0.0.1:7890" />
             <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="类型" />
             <ComboBox Width="100" Margin="0,0,8,0" SelectedIndex="{Binding ResolveType}">
                 <ComboBoxItem Content="A" />

@@ -1,6 +1,5 @@
-using Application = Avalonia.Application;
 using ReactiveUI;
-using System.Reactive.Linq;
+using v2rayN.Desktop.Common;
 
 namespace v2rayN.Desktop.Views;
 
@@ -14,14 +13,7 @@ public partial class DohViewTab : ReactiveUserControl<DohViewModel>
         {
             ViewModel!.CopyRequested
                 .AsObservable()
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(async text =>
-                {
-                    if (Application.Current?.Clipboard is { } clipboard)
-                    {
-                        await clipboard.SetTextAsync(text);
-                    }
-                })
+                .Subscribe(async text => await AvaUtils.SetClipboardData(this, text))
                 .DisposeWith(disposables);
         });
     }

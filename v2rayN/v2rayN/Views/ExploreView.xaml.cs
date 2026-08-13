@@ -1,8 +1,10 @@
 using System.Windows.Controls;
+using ReactiveUI;
+using ServiceLib.ViewModels;
 
 namespace v2rayN.Views;
 
-public partial class ExploreView
+public partial class ExploreView : ReactiveUserControl<ExploreViewModel>
 {
     public ExploreView()
     {
