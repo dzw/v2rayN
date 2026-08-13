@@ -13,42 +13,29 @@
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- 域名输入（每行一个） -->
-        <TextBox
-            x:Name="txtDomain"
-            Grid.Row="0"
-            Height="60"
-            Margin="0,0,0,6"
-            AcceptsReturn="True"
-            Text="{Binding Domains, UpdateSourceTrigger=PropertyChanged}"
-            TextWrapping="Wrap"
-            VerticalScrollBarVisibility="Auto"
-            materialDesign:HintAssist.Hint="要查询的域名，每行一个" />
-
         <!-- 顶部工具栏 -->
-        <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,6">
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,6">
             <TextBlock
                 VerticalAlignment="Center"
                 Margin="0,0,4,0"
-                Text="{x:Static resx:ResUI.TBDohUrl}" />
+                Text="{x:Static resx:ResUI.DohConcurrency}" />
             <TextBox
-                x:Name="txtDohUrl"
-                Width="240"
+                x:Name="txtConcurrency"
+                Width="60"
                 Margin="0,0,8,0"
-                Text="{Binding DohUrl}"
-                materialDesign:HintAssist.Hint="https://1.1.1.1/dns-query" />
+                Text="{Binding Concurrency, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 VerticalAlignment="Center"
-                Margin="0,0,4,0"
+                Margin="0,0,8,0"
                 Text="{x:Static resx:ResUI.TBDohProxy}" />
             <TextBox
                 x:Name="txtProxy"
-                Width="200"
+                Width="180"
                 Margin="0,0,8,0"
                 Text="{Binding ProxyUrl}"
                 materialDesign:HintAssist.Hint="http://127.0.0.1:7890" />
@@ -75,26 +62,97 @@
                 Content="{x:Static resx:ResUI.menuEditCopy}" />
         </WrapPanel>
 
+        <!-- 左：域名输入；右：DoH 服务器列表 -->
+        <Grid Grid.Row="1" Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 左：域名输入（每行一个） -->
+            <TextBox
+                x:Name="txtDomain"
+                Grid.Column="0"
+                Margin="0,0,4,0"
+                AcceptsReturn="True"
+                Text="{Binding Domains, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                materialDesign:HintAssist.Hint="要查询的域名，每行一个" />
+
+            <!-- 右：DoH 服务器列表（可增删） -->
+            <Grid Grid.Column="1" Margin="4,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBox
+                        x:Name="txtNewDohUrl"
+                        Width="240"
+                        Margin="0,0,4,0"
+                        Text="{Binding NewDohUrl, UpdateSourceTrigger=PropertyChanged}"
+                        materialDesign:HintAssist.Hint="https://1.1.1.1/dns-query" />
+                    <Button
+                        Command="{Binding AddDohCmd}"
+                        Content="{x:Static resx:ResUI.Add}" />
+                </WrapPanel>
+
+                <DataGrid
+                    x:Name="lstDohUrls"
+                    Grid.Row="1"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding DohUrls}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding}"
+                            Header="{x:Static resx:ResUI.TBDohUrl}" />
+                        <DataGridTemplateColumn Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Padding="6,0"
+                                        Command="{Binding DataContext.RemoveDohCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Content="{x:Static resx:ResUI.Remove}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+
         <!-- 结果 -->
         <DataGrid
             x:Name="lstResults"
             Grid.Row="2"
+            Margin="0,0,0,6"
             AutoGenerateColumns="False"
             IsReadOnly="True"
+            SelectionMode="Extended"
+            SelectionChanged="LstResults_SelectionChanged"
             ItemsSource="{Binding Results}">
             <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Address}"
+                    Header="{x:Static resx:ResUI.DohResults}" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding Domain}"
                     Header="{x:Static resx:ResUI.TBDohDomain}" />
                 <DataGridTextColumn
+                    Width="2*"
+                    Binding="{Binding Server}"
+                    Header="{x:Static resx:ResUI.DohServer}" />
+                <DataGridTextColumn
                     Width="Auto"
                     Binding="{Binding Type}"
                     Header="{x:Static resx:ResUI.DohResolveType}" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Address}"
-                    Header="{x:Static resx:ResUI.DohResults}" />
                 <DataGridTextColumn
                     Width="Auto"
                     Binding="{Binding Ttl}"

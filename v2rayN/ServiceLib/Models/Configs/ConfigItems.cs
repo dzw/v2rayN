@@ -290,6 +290,8 @@ public class SimpleDNSItem
     public string? Hosts { get; set; }
     public string? DirectExpectedIPs { get; set; }
     public bool? EnableHappyEyeballs { get; set; }
+    public string? DohDomains { get; set; }
+    public List<string>? DohUrls { get; set; }
 }
 
 [Serializable]

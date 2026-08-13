@@ -891,6 +891,15 @@
   <data name="TBDohUrl" xml:space="preserve">
     <value>DoH URL</value>
   </data>
+  <data name="DohConcurrency" xml:space="preserve">
+    <value>Concurrency</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
   <data name="TBDohProxy" xml:space="preserve">
     <value>Proxy (optional)</value>
   </data>
@@ -902,6 +911,9 @@
   </data>
   <data name="DohResults" xml:space="preserve">
     <value>Resolved results</value>
+  </data>
+  <data name="DohServer" xml:space="preserve">
+    <value>DoH Server</value>
   </data>
   <data name="ExploreNoNodes" xml:space="preserve">
     <value>No new nodes found</value>

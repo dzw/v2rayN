@@ -126,6 +126,7 @@ public partial class ExploreViewModel : MyReactiveObject
         if (keys.Count == 0)
         {
             NoticeManager.Instance.Enqueue(ResUI.ExploreNoNodes);
+            NoticeManager.Instance.SendMessage($"{ResUI.menuExploreNodes}: {ResUI.ExploreNoNodes}");
             return;
         }
 
@@ -133,6 +134,7 @@ public partial class ExploreViewModel : MyReactiveObject
         if (!File.Exists(scriptPath))
         {
             NoticeManager.Instance.Enqueue($"{ResUI.menuExploreNodes}: explore_nodes.py not found at {scriptPath}");
+            NoticeManager.Instance.SendMessage($"{ResUI.menuExploreNodes}: explore_nodes.py not found at {scriptPath}");
             return;
         }
 
@@ -144,6 +146,7 @@ public partial class ExploreViewModel : MyReactiveObject
 
         Results.Clear();
         ProgressText = $"{ResUI.menuExploreNodes}: {keys.Count} keys, searching...";
+        NoticeManager.Instance.SendMessageEx($"{ResUI.menuExploreNodes}: {keys.Count} keys, searching...");
         IsExploring = true;
 
         await Task.Run(() =>
@@ -201,10 +204,12 @@ public partial class ExploreViewModel : MyReactiveObject
                     AppendResults(File.ReadAllText(tmpOut).Substring((int)Math.Min(lastPos, int.MaxValue)));
                 }
                 errTask.Wait();
+                NoticeManager.Instance.SendMessageEx($"{ResUI.menuExploreNodes}: {ResUI.OperationSuccess} ({Results.Count} results)");
             }
             catch (Exception ex)
             {
                 AppendProgress($"ERROR: {ex.Message}");
+                NoticeManager.Instance.SendMessage($"ERROR: {ex.Message}");
             }
             finally
             {
@@ -226,6 +231,9 @@ public partial class ExploreViewModel : MyReactiveObject
         var text = ProgressText + Environment.NewLine + line;
         if (text.Length > 4000) text = text[^4000..];
         ProgressText = text;
+
+        // 同步打印到 MsgView，便于在消息面板查看探索进度
+        NoticeManager.Instance.SendMessage(line);
     }
 
     private void AppendResults(string text)

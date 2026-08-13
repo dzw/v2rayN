@@ -452,7 +452,17 @@ public partial class MainWindow
     // DohView 是 Window, 不能直接作为 ContentControl.Content; 用 UserControl 版本嵌入标签页
     private static void ShowDoh(ContentControl host, DohViewModel? vm)
     {
-        host.Content = vm is null ? null : new DohViewTab { ViewModel = vm };
+        if (vm is null)
+        {
+            host.Content = null;
+            return;
+        }
+
+        var dohViewTab = new DohViewTab { ViewModel = vm };
+        // WPF 的 ReactiveUserControl<T> 不会自动把 ViewModel 同步到 DataContext，
+        // 而 XAML 绑定默认绑 DataContext，需显式关联。
+        dohViewTab.DataContext = vm;
+        host.Content = dohViewTab;
     }
 
     private void AddHelpMenuItem()

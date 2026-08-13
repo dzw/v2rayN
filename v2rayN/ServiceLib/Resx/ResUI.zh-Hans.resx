@@ -891,6 +891,15 @@
   <data name="TBDohUrl" xml:space="preserve">
     <value>DoH 地址</value>
   </data>
+  <data name="DohConcurrency" xml:space="preserve">
+    <value>并发数</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>删除</value>
+  </data>
   <data name="TBDohProxy" xml:space="preserve">
     <value>代理（可选）</value>
   </data>
@@ -902,6 +911,9 @@
   </data>
   <data name="DohResults" xml:space="preserve">
     <value>解析结果</value>
+  </data>
+  <data name="DohServer" xml:space="preserve">
+    <value>DoH 服务器</value>
   </data>
   <data name="ExploreNoNodes" xml:space="preserve">
     <value>未找到新节点</value>

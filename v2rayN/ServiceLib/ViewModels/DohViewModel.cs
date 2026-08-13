@@ -4,12 +4,15 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using ReactiveUI;
+using ServiceLib.Handler;
+using ServiceLib.Manager;
 
 namespace ServiceLib.ViewModels;
 
 public partial class DohResultItem : MyReactiveObject
 {
     [Reactive] public string Domain { get; set; } = string.Empty;
+    [Reactive] public string Server { get; set; } = string.Empty;
     [Reactive] public string Type { get; set; } = string.Empty;
     [Reactive] public string Address { get; set; } = string.Empty;
     [Reactive] public int Ttl { get; set; }
@@ -18,30 +21,118 @@ public partial class DohResultItem : MyReactiveObject
 public partial class DohViewModel : MyReactiveObject
 {
     [Reactive] public string Domains { get; set; } = string.Empty;
-    [Reactive] public string DohUrl { get; set; } = "https://1.1.1.1/dns-query";
+    [Reactive] public string NewDohUrl { get; set; } = string.Empty;
     [Reactive] public string ProxyUrl { get; set; } = string.Empty;
+    [Reactive] public int Concurrency { get; set; } = 4; // 一个域名同时使用的 DoH 服务器数量
+
+    // 可增删的 DoH 服务器列表（持久化）
+    public ObservableCollection<string> DohUrls { get; } = new();
+
     [Reactive] public int ResolveType { get; set; } = 0; // 0=A, 1=AAAA, 2=Both
     [Reactive] public ObservableCollection<DohResultItem> Results { get; set; } = new();
+    // 结果列表中当前选中的行（支持多选复制）
+    public System.Collections.Generic.List<DohResultItem> SelectedResults { get; } = new();
     [Reactive] public string ProgressText { get; set; } = string.Empty;
     [Reactive] public bool IsBusy { get; set; }
 
     public ReactiveCommand<RxVoid, RxVoid> QueryCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> CopyResultsCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> AddDohCmd { get; }
+    public ReactiveCommand<string, RxVoid> RemoveDohCmd { get; }
 
     public EventChannel<string> CopyRequested { get; } = new();
 
+    private static readonly List<string> DefaultDohUrls =
+    [
+        "https://1.1.1.1/dns-query",
+        "https://cloudflare-dns.com/dns-query",
+        "https://dns.google/dns-query",
+        "https://dns.cloudflare.com/dns-query",
+        "https://dns.adguard.com/dns-query",
+        "https://dns.quad9.net/dns-query",
+        "https://doh.opendns.com/dns-query",
+        "https://dnsforge.de/dns-query",
+    ];
+
     public DohViewModel()
     {
+        _config = AppManager.Instance.Config;
+        _config.SimpleDNSItem ??= new SimpleDNSItem();
+
+        // 读取上次保存的 DoH 查询内容（域名列表与服务器列表）
+        if (_config.SimpleDNSItem is not null)
+        {
+            Domains = _config.SimpleDNSItem.DohDomains ?? string.Empty;
+            var saved = _config.SimpleDNSItem.DohUrls;
+            if (saved is { Count: > 0 })
+            {
+                foreach (var u in saved)
+                {
+                    if (u.IsNotEmpty())
+                    {
+                        DohUrls.Add(u);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var u in DefaultDohUrls)
+                {
+                    DohUrls.Add(u);
+                }
+            }
+        }
+
         QueryCmd = ReactiveCommand.CreateFromTask(async () => await QueryAsync());
         CopyResultsCmd = ReactiveCommand.Create(() =>
         {
-            if (Results.Count == 0)
+            var items = SelectedResults.Count > 0 ? SelectedResults : Results.ToList();
+            if (items.Count == 0)
             {
                 return;
             }
-            var text = string.Join(Environment.NewLine, Results.Select(r => r.Address));
+            var text = string.Join(Environment.NewLine, items.Select(r => $"{r.Address}\t{r.Domain}"));
             CopyRequested.Publish(text);
         });
+        AddDohCmd = ReactiveCommand.Create(AddDoh);
+        RemoveDohCmd = ReactiveCommand.Create<string>(RemoveDoh);
+
+        // 域名 / 服务器列表变化时写回配置并持久化，保证下次打开仍在
+        this.WhenAnyValue(x => x.Domains).Subscribe(_ => SaveDohSettings());
+        DohUrls.CollectionChanged += (_, _) => SaveDohSettings();
+    }
+
+    private void AddDoh()
+    {
+        var url = NewDohUrl.Trim();
+        if (url.IsNullOrEmpty())
+        {
+            return;
+        }
+        if (!DohUrls.Contains(url, StringComparer.OrdinalIgnoreCase))
+        {
+            DohUrls.Add(url);
+        }
+        NewDohUrl = string.Empty;
+    }
+
+    private void RemoveDoh(string url)
+    {
+        if (url.IsNotEmpty())
+        {
+            DohUrls.Remove(url);
+        }
+    }
+
+    private void SaveDohSettings()
+    {
+        if (_config?.SimpleDNSItem is null)
+        {
+            return;
+        }
+        _config.SimpleDNSItem.DohDomains = Domains;
+        _config.SimpleDNSItem.DohUrls = DohUrls.ToList();
+        _ = ConfigHandler.SaveConfig(_config);
     }
 
     private async Task QueryAsync()
@@ -58,17 +149,28 @@ public partial class DohViewModel : MyReactiveObject
             .Where(d => d.Length > 0)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
-        var dohUrl = DohUrl.Trim();
-        if (domains.Count == 0 || dohUrl.IsNullOrEmpty())
+        if (domains.Count == 0)
         {
-            ProgressText = "请填写域名与 DoH 地址";
+            ProgressText = "请填写要查询的域名";
             return;
         }
+
+        var servers = DohUrls
+            .Select(u => u.Trim())
+            .Where(u => u.Length > 0)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+        if (servers.Count == 0)
+        {
+            ProgressText = "请先添加 DoH 服务器地址";
+            return;
+        }
+
+        var concurrency = Math.Clamp(Concurrency, 1, servers.Count);
 
         IsBusy = true;
         try
         {
-            var target = BuildDohTarget(dohUrl);
             var types = ResolveType switch
             {
                 1 => new[] { DnsType.AAAA },
@@ -76,33 +178,62 @@ public partial class DohViewModel : MyReactiveObject
                 _ => new[] { DnsType.A },
             };
 
+            var log = new StringBuilder();
+            log.AppendLine($"使用 {servers.Count} 个 DoH 服务器（并发 {concurrency}）查询 {domains.Count} 个域名");
+
             using var client = CreateClient();
+            var options = new ParallelOptions { MaxDegreeOfParallelism = concurrency };
+
+            // 逐个域名处理：每个域名的查询通过最多 a 个 DoH 服务器并发进行
             foreach (var domain in domains)
             {
-                foreach (var t in types)
+                log.AppendLine($"---- {domain} ----");
+                var localResults = new List<DohResultItem>();
+                var localLog = new StringBuilder();
+                await Parallel.ForEachAsync(servers, options, async (server, ct) =>
                 {
-                    ProgressText += $"查询 {domain} {t} ...{Environment.NewLine}";
-                    try
+                    var target = BuildDohTarget(server);
+                    foreach (var t in types)
                     {
-                        var answers = await ResolveAsync(client, target, domain, t);
-                        foreach (var a in answers)
+                        try
                         {
-                            a.Domain = domain;
-                            Results.Add(a);
-                            ProgressText += $"  {a.Type} {a.Address} (ttl={a.Ttl}){Environment.NewLine}";
+                            var answers = await ResolveAsync(client, target, domain, t);
+                            lock (localResults)
+                            {
+                                foreach (var a in answers)
+                                {
+                                    a.Domain = domain;
+                                    a.Server = server;
+                                    localResults.Add(a);
+                                    localLog.AppendLine($"  [{server}] {a.Type} {a.Address} (ttl={a.Ttl})");
+                                }
+                                if (answers.Count == 0)
+                                {
+                                    localLog.AppendLine($"  [{server}] 无记录");
+                                }
+                            }
                         }
-                        if (answers.Count == 0)
+                        catch (Exception ex)
                         {
-                            ProgressText += $"  无记录{Environment.NewLine}";
+                            lock (localResults)
+                            {
+                                localLog.AppendLine($"  [{server}] 失败: {ex.Message}");
+                            }
                         }
                     }
-                    catch (Exception ex)
+                });
+
+                lock (Results)
+                {
+                    foreach (var r in localResults)
                     {
-                        ProgressText += $"  失败: {ex.Message}{Environment.NewLine}";
+                        Results.Add(r);
                     }
                 }
+                log.Append(localLog);
             }
-            ProgressText += "完成";
+            log.AppendLine("完成");
+            ProgressText = log.ToString();
         }
         catch (Exception ex)
         {

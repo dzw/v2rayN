@@ -1303,6 +1303,33 @@ namespace ServiceLib.Resx {
         }
 
         /// <summary>
+        ///   查找类似 Concurrency 的本地化字符串。
+        /// </summary>
+        public static string DohConcurrency {
+            get {
+                return ResourceManager.GetString("DohConcurrency", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Add 的本地化字符串。
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Remove 的本地化字符串。
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 Proxy (optional) 的本地化字符串。
         /// </summary>
         public static string TBDohProxy {
@@ -1337,7 +1364,16 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("DohResults", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 DoH Server 的本地化字符串。
+        /// </summary>
+        public static string DohServer {
+            get {
+                return ResourceManager.GetString("DohServer", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 No new nodes found 的本地化字符串。
         /// </summary>
