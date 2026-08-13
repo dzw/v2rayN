@@ -125,6 +125,9 @@
                         <TabItem Header="{x:Static resx:ResUI.menuExploreNodes}">
                             <ContentControl x:Name="tabProfilesExplore" />
                         </TabItem>
+                        <TabItem Header="{x:Static resx:ResUI.menuDoh}">
+                            <ContentControl x:Name="tabProfilesDoh" />
+                        </TabItem>
                     </TabControl>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
                     <TabControl
@@ -147,6 +150,9 @@
                         <TabItem Header="{x:Static resx:ResUI.menuExploreNodes}">
                             <ContentControl x:Name="tabProfilesExplore1" />
                         </TabItem>
+                        <TabItem Header="{x:Static resx:ResUI.menuDoh}">
+                            <ContentControl x:Name="tabProfilesDoh1" />
+                        </TabItem>
                     </TabControl>
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" />
                     <TabControl
@@ -167,6 +173,9 @@
                                 </TabItem>
                                 <TabItem Header="{x:Static resx:ResUI.menuExploreNodes}">
                                     <ContentControl x:Name="tabProfilesExplore2" />
+                                </TabItem>
+                                <TabItem Header="{x:Static resx:ResUI.menuDoh}">
+                                    <ContentControl x:Name="tabProfilesDoh2" />
                                 </TabItem>
                             </TabControl>
                         </TabItem>

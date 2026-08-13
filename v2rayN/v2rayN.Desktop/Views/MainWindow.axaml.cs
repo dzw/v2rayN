@@ -414,6 +414,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             case EGirdOrientation.Horizontal:
                 this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfilesServers.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabProfilesExplore.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.DohViewModel, v => v.tabProfilesDoh.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.MsgViewModel, v => v.tabMsgView.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashProxiesViewModel, v => v.tabClashProxies.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashConnectionsViewModel, v => v.tabClashConnections.Content).DisposeWith(currentLayoutDisposables);
@@ -427,6 +428,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             case EGirdOrientation.Vertical:
                 this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfilesServers1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabProfilesExplore1.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.DohViewModel, v => v.tabProfilesDoh1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.MsgViewModel, v => v.tabMsgView1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashProxiesViewModel, v => v.tabClashProxies1.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashConnectionsViewModel, v => v.tabClashConnections1.Content).DisposeWith(currentLayoutDisposables);
@@ -441,6 +443,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             default:
                 this.OneWayBind(ViewModel, vm => vm.ProfilesViewModel, v => v.tabProfilesServers2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ExploreViewModel, v => v.tabProfilesExplore2.Content).DisposeWith(currentLayoutDisposables);
+                this.OneWayBind(ViewModel, vm => vm.DohViewModel, v => v.tabProfilesDoh2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.MsgViewModel, v => v.tabMsgView2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashProxiesViewModel, v => v.tabClashProxies2.Content).DisposeWith(currentLayoutDisposables);
                 this.OneWayBind(ViewModel, vm => vm.ClashConnectionsViewModel, v => v.tabClashConnections2.Content).DisposeWith(currentLayoutDisposables);

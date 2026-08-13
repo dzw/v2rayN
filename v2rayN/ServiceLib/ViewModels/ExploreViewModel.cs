@@ -2,6 +2,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using ReactiveUI;
+using ServiceLib.Common;
+using ServiceLib.Enums;
+using ServiceLib.Manager;
 
 namespace ServiceLib.ViewModels;
 
@@ -61,6 +64,9 @@ public partial class ExploreViewModel : MyReactiveObject
             Name = "Google 搜索 (按节点 key)",
             Type = "google",
         });
+
+        // 默认代理：本机 IP + 本地 socks 端口
+        ProxyUrl = $"{Global.HttpProtocol}{Global.Loopback}:{AppManager.Instance.GetLocalPort(EInboundProtocol.socks)}";
 
         StartExploreCmd = ReactiveCommand.CreateFromTask(StartExploreAsync);
         StopExploreCmd = ReactiveCommand.Create(StopExplore);

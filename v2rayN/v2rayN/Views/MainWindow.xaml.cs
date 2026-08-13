@@ -374,6 +374,9 @@ public partial class MainWindow
                 this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
                     .Subscribe(vm => ViewHost.Show(tabProfilesExplore, vm))
                     .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
+                    .Subscribe(vm => ShowDoh(tabProfilesDoh, vm))
+                    .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView, vm))
                     .DisposeWith(currentLayoutDisposables);
@@ -396,6 +399,9 @@ public partial class MainWindow
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
                     .Subscribe(vm => ViewHost.Show(tabProfilesExplore1, vm))
+                    .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
+                    .Subscribe(vm => ShowDoh(tabProfilesDoh1, vm))
                     .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView1, vm))
@@ -421,6 +427,9 @@ public partial class MainWindow
                 this.WhenAnyValue(v => v.ViewModel.ExploreViewModel)
                     .Subscribe(vm => ViewHost.Show(tabProfilesExplore2, vm))
                     .DisposeWith(currentLayoutDisposables);
+                this.WhenAnyValue(v => v.ViewModel.DohViewModel)
+                    .Subscribe(vm => ShowDoh(tabProfilesDoh2, vm))
+                    .DisposeWith(currentLayoutDisposables);
                 this.WhenAnyValue(v => v.ViewModel.MsgViewModel)
                     .Subscribe(vm => ViewHost.Show(tabMsgView2, vm))
                     .DisposeWith(currentLayoutDisposables);
@@ -438,6 +447,12 @@ public partial class MainWindow
         }
 
         RestoreUI();
+    }
+
+    // DohView 是 Window, 不能直接作为 ContentControl.Content; 用 UserControl 版本嵌入标签页
+    private static void ShowDoh(ContentControl host, DohViewModel? vm)
+    {
+        host.Content = vm is null ? null : new DohViewTab { ViewModel = vm };
     }
 
     private void AddHelpMenuItem()

@@ -1,0 +1,90 @@
+<UserControl
+    x:Class="v2rayN.Desktop.Views.DohViewTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
+    x:Name="Root"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vms:DohViewModel"
+    Design.DataContext="{x:Static dd:DesignData.Doh}"
+    mc:Ignorable="d">
+    <Grid Margin="8" RowDefinitions="Auto,*,Auto">
+        <!-- 顶部工具栏 -->
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,6">
+            <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="域名" />
+            <TextBox
+                Width="220"
+                Margin="0,0,8,0"
+                AcceptsReturn="True"
+                Text="{Binding Domains}"
+                Watermark="example.com" />
+            <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="DoH 地址" />
+            <TextBox Width="220" Margin="0,0,8,0" Text="{Binding DohUrl}" />
+            <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="代理" />
+            <TextBox
+                Width="180"
+                Margin="0,0,8,0"
+                Text="{Binding ProxyUrl}"
+                Watermark="http://127.0.0.1:7890" />
+            <TextBlock VerticalAlignment="Center" Margin="0,0,4,0" Text="类型" />
+            <ComboBox Width="100" Margin="0,0,8,0" SelectedIndex="{Binding ResolveType}">
+                <ComboBoxItem Content="A" />
+                <ComboBoxItem Content="AAAA" />
+                <ComboBoxItem Content="A / AAAA" />
+            </ComboBox>
+            <Button
+                Margin="0,0,4,0"
+                Classes="Success"
+                Command="{Binding QueryCmd}"
+                Content="查询"
+                IsEnabled="{Binding !IsBusy}" />
+            <Button
+                Margin="0,0,4,0"
+                Classes="Primary"
+                Command="{Binding CopyResultsCmd}"
+                Content="复制结果" />
+        </WrapPanel>
+
+        <!-- 结果列表 -->
+        <DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Results}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Domain}"
+                    Header="域名" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Type}"
+                    Header="类型" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Address}"
+                    Header="地址" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Ttl}"
+                    Header="TTL" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- 进度 -->
+        <TextBox
+            Grid.Row="2"
+            Height="90"
+            Margin="0,6,0,0"
+            AcceptsReturn="True"
+            FontSize="11"
+            IsReadOnly="True"
+            Text="{Binding ProgressText}"
+            TextWrapping="Wrap"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</UserControl>

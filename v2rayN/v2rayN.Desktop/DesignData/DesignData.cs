@@ -1,4 +1,5 @@
 using ServiceLib.Models.Entities;
+using ServiceLib.ViewModels;
 using System.Diagnostics;
 using v2rayN.Desktop.Manager;
 using v2rayN.Desktop.ViewModels;
@@ -29,6 +30,8 @@ public static class DesignData
     public static ClashProxiesViewModel? ClashProxies { get; } = SafeCreate(() => new ClashProxiesViewModel());
 
     public static ClashConnectionsViewModel? ClashConnections { get; } = SafeCreate(() => new ClashConnectionsViewModel());
+
+    public static DohViewModel? Doh { get; } = SafeCreate(() => new DohViewModel());
 
     public static ExploreViewModel? Explore { get; } = SafeCreate(() => new ExploreViewModel());
 

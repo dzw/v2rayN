@@ -13,6 +13,7 @@ public partial class MainWindowViewModel : MyReactiveObject
     public MsgViewModel MsgViewModel { get; } = new();
     public ClashProxiesViewModel ClashProxiesViewModel { get; } = new();
     public ExploreViewModel ExploreViewModel { get; } = new();
+    public DohViewModel DohViewModel { get; } = new();
     public ClashConnectionsViewModel ClashConnectionsViewModel { get; } = new();
     public CheckUpdateViewModel CheckUpdateViewModel { get; } = new();
     public BackupAndRestoreViewModel BackupAndRestoreViewModel { get; } = new();

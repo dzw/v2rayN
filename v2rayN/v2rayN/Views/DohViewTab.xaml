@@ -1,0 +1,117 @@
+<reactiveui:ReactiveUserControl
+    x:Class="v2rayN.Views.DohViewTab"
+    x:TypeArguments="vms:DohViewModel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:reactiveui="http://reactiveui.net"
+    xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
+    xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
+    mc:Ignorable="d">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 域名输入（每行一个） -->
+        <TextBox
+            x:Name="txtDomain"
+            Grid.Row="0"
+            Height="60"
+            Margin="0,0,0,6"
+            AcceptsReturn="True"
+            Text="{Binding Domains, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto"
+            materialDesign:HintAssist.Hint="要查询的域名，每行一个" />
+
+        <!-- 顶部工具栏 -->
+        <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,6">
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="0,0,4,0"
+                Text="{x:Static resx:ResUI.TBDohUrl}" />
+            <TextBox
+                x:Name="txtDohUrl"
+                Width="240"
+                Margin="0,0,8,0"
+                Text="{Binding DohUrl}"
+                materialDesign:HintAssist.Hint="https://1.1.1.1/dns-query" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="0,0,4,0"
+                Text="{x:Static resx:ResUI.TBDohProxy}" />
+            <TextBox
+                x:Name="txtProxy"
+                Width="200"
+                Margin="0,0,8,0"
+                Text="{Binding ProxyUrl}"
+                materialDesign:HintAssist.Hint="http://127.0.0.1:7890" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="0,0,4,0"
+                Text="{x:Static resx:ResUI.DohResolveType}" />
+            <ComboBox
+                x:Name="cmbResolveType"
+                Width="80"
+                Margin="0,0,8,0"
+                SelectedIndex="{Binding ResolveType}">
+                <ComboBoxItem Content="A" />
+                <ComboBoxItem Content="AAAA" />
+                <ComboBoxItem Content="A+AAAA" />
+            </ComboBox>
+            <Button
+                Margin="0,0,4,0"
+                Command="{Binding QueryCmd}"
+                Content="{x:Static resx:ResUI.DohQuery}" />
+            <Button
+                Margin="0,0,4,0"
+                Command="{Binding CopyResultsCmd}"
+                Content="{x:Static resx:ResUI.menuEditCopy}" />
+        </WrapPanel>
+
+        <!-- 结果 -->
+        <DataGrid
+            x:Name="lstResults"
+            Grid.Row="2"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Results}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Domain}"
+                    Header="{x:Static resx:ResUI.TBDohDomain}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Type}"
+                    Header="{x:Static resx:ResUI.DohResolveType}" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Address}"
+                    Header="{x:Static resx:ResUI.DohResults}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Ttl}"
+                    Header="TTL" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- 进度 -->
+        <TextBox
+            Grid.Row="3"
+            Height="90"
+            Margin="0,6,0,0"
+            AcceptsReturn="True"
+            FontSize="11"
+            IsReadOnly="True"
+            Text="{Binding ProgressText}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</reactiveui:ReactiveUserControl>
