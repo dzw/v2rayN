@@ -1312,6 +1312,15 @@ namespace ServiceLib.Resx {
         }
 
         /// <summary>
+        ///   查找类似 Edit Hosts 的本地化字符串。
+        /// </summary>
+        public static string EditHosts {
+            get {
+                return ResourceManager.GetString("EditHosts", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 Add 的本地化字符串。
         /// </summary>
         public static string Add {

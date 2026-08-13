@@ -60,6 +60,10 @@
                 Margin="0,0,4,0"
                 Command="{Binding CopyResultsCmd}"
                 Content="{x:Static resx:ResUI.menuEditCopy}" />
+            <Button
+                Margin="0,0,4,0"
+                Click="OpenHosts_Click"
+                Content="{x:Static resx:ResUI.EditHosts}" />
         </WrapPanel>
 
         <!-- 左：域名输入；右：DoH 服务器列表 -->

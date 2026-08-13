@@ -894,6 +894,9 @@
   <data name="DohConcurrency" xml:space="preserve">
     <value>並發數</value>
   </data>
+  <data name="EditHosts" xml:space="preserve">
+    <value>編輯 Hosts</value>
+  </data>
   <data name="Add" xml:space="preserve">
     <value>新增</value>
   </data>

@@ -44,14 +44,33 @@ public partial class DohViewModel : MyReactiveObject
 
     private static readonly List<string> DefaultDohUrls =
     [
-        "https://1.1.1.1/dns-query",
+        "https://adblock.mydns.network/dns-query",
+        "https://adfree.usableprivacy.net/dns-query",
+        "https://basic.rethinkdns.com/dns-query",
         "https://cloudflare-dns.com/dns-query",
-        "https://dns.google/dns-query",
-        "https://dns.cloudflare.com/dns-query",
+        "https://dns-family.adguard.com/dns-query",
         "https://dns.adguard.com/dns-query",
-        "https://dns.quad9.net/dns-query",
-        "https://doh.opendns.com/dns-query",
+        "https://dns.alidns.com/dns-query",
+        "https://dns.blokada.org/dns-query",
+        "https://dns.flatuslifir.is/dns-query",
+        "https://dns.google/dns-query",
+        "https://dns.hostux.net/dns-query",
         "https://dnsforge.de/dns-query",
+        "https://doh-2.seby.io/dns-query",
+        "https://doh.42l.fr/dns-query",
+        "https://doh.dns.sb/dns-query",
+        "https://doh.familyshield.opendns.com/dns-query",
+        "https://doh.ffmuc.net/dns-query",
+        "https://doh.li/dns-query",
+        "https://doh.libredns.gr/dns-query",
+        "https://doh.opendns.com/dns-query",
+        "https://doh.tiar.app/dns-query",
+        "https://doh.tiarap.org/dns-query",
+        "https://family.cloudflare-dns.com/dns-query",
+        "https://freedom.mydns.network/dns-query",
+        "https://ibuki.cgnat.net/dns-query",
+        "https://mozilla.cloudflare-dns.com/dns-query",
+        "https://security.cloudflare-dns.com/dns-query",
     ];
 
     public DohViewModel()

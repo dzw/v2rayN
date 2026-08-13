@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using ReactiveUI;
+using ServiceLib.Handler;
 using ServiceLib.ViewModels;
 using WindowsUtils = v2rayN.Common.WindowsUtils;
 
@@ -34,6 +35,27 @@ public partial class DohViewTab
         foreach (DohResultItem item in selected)
         {
             ViewModel.SelectedResults.Add(item);
+        }
+    }
+
+    private void OpenHosts_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        const string hostsPath = @"C:\Windows\System32\drivers\etc\hosts";
+        try
+        {
+            var psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "notepad.exe",
+                Arguments = hostsPath,
+                Verb = "runas", // 以管理员方式运行
+                UseShellExecute = true,
+            };
+            System.Diagnostics.Process.Start(psi);
+        }
+        catch (System.ComponentModel.Win32Exception ex)
+        {
+            // 用户取消 UAC 提权
+            NoticeManager.Instance.SendMessage($"打开 Hosts 失败: {ex.Message}");
         }
     }
 }

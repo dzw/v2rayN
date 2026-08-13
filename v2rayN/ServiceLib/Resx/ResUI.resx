@@ -894,6 +894,9 @@
   <data name="DohConcurrency" xml:space="preserve">
     <value>Concurrency</value>
   </data>
+  <data name="EditHosts" xml:space="preserve">
+    <value>Edit Hosts</value>
+  </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>

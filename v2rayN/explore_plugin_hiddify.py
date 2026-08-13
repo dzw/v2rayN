@@ -5,6 +5,7 @@ explore_plugin_hiddify.py — Hiddify 免费节点分享探索插件
 Hiddify 文档页 https://hiddify.me/docs/Tutorial/hiddify-next-free-node-sharing/
 内含 vmess:// (以及其它协议) 分享链接, 也可能嵌入 .yaml 订阅。
 """
+import re
 import time
 
 import explore_plugin_base as base
@@ -13,7 +14,6 @@ DEFAULT_URL = "https://hiddify.me/docs/Tutorial/hiddify-next-free-node-sharing/"
 
 # 文档页内常嵌入订阅链接 (sub/), 抓到后作为整体订阅交给 v2rayN 解析
 SUBSCRIPTION_HINT = re.compile(r"https?://[^\s\"'<>]+(?:sub|subscription|api)[^\s\"'<>]*", re.IGNORECASE)
-import re
 
 
 class HiddifyPlugin(base.BasePlugin):

@@ -162,22 +162,26 @@ public partial class ExploreViewModel : MyReactiveObject
                     UseShellExecute = false,
                     CreateNoWindow = true,
                 };
-                using var proc = Process.Start(psi);
+                var proc = Process.Start(psi);
                 _proc = proc;
                 if (proc is null)
                 {
                     throw new Exception("failed to start python");
                 }
 
-                // 进度: 读 stderr
+                // 进度: 读 stderr（进程结束后 StandardError 仍可读取已缓冲内容）
                 var errTask = Task.Run(() =>
                 {
-                    var line = proc.StandardError.ReadLine();
-                    while (line is not null)
+                    try
                     {
-                        AppendProgress(line);
-                        line = proc.StandardError.ReadLine();
+                        var line = proc.StandardError.ReadLine();
+                        while (line is not null)
+                        {
+                            AppendProgress(line);
+                            line = proc.StandardError.ReadLine();
+                        }
                     }
+                    catch (ObjectDisposedException) { }
                 });
 
                 // 结果: 轮询 out.txt, 把新行加进 Results
@@ -204,6 +208,8 @@ public partial class ExploreViewModel : MyReactiveObject
                     AppendResults(File.ReadAllText(tmpOut).Substring((int)Math.Min(lastPos, int.MaxValue)));
                 }
                 errTask.Wait();
+                try { proc.Dispose(); } catch { }
+                _proc = null;
                 NoticeManager.Instance.SendMessageEx($"{ResUI.menuExploreNodes}: {ResUI.OperationSuccess} ({Results.Count} results)");
             }
             catch (Exception ex)
